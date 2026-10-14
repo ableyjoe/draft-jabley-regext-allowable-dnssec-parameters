@@ -114,13 +114,13 @@ to an IANA registry, the phrase "IANA registry" is used.
 
 # DNSSEC Parameters in EPP
 
-Section 4.1 of {{!RFC5910}} defines two child elements of the
+{{Section 4.1 of !RFC5910}} defines two child elements of the
 `<secDNS:dsData>` element that relate to the signing algorithm:
 
 * `<secDNS:alg>` contains an algorithm value as described in
-  Section 5.1.2 of {{!RFC4034}}
+  {{section 5.1.2 of !RFC4034}}
 * `<secDNS:digestType>` contains a digest type value as described in
-  Section 5.1.3 of {{!RFC4034}}
+  {{section 5.1.3 of !RFC4034}}
 
 Requirements levels corresponding to the values of the `<secDNS:alg>`
 and `<secDNS:digestType>` are managed according to {{!RFC9904}} and

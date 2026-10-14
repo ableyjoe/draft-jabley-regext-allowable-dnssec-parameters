@@ -128,6 +128,12 @@ to an IANA registry, the phrase "IANA registry" is used.
 
 # DNSSEC Parameters in EPP
 
+This document is concerned only with the `<secDNS:alg>` and
+`<secDNS:digestType>` elements of the DS data interface. The key data
+interface described in {{Section 4.2 of RFC5910}} is out of scope.
+This document does not change the contents of the IANA registries or
+the requirement levels they record.
+
 {{Section 4.1 of !RFC5910}} defines two child elements of the
 `<secDNS:dsData>` element that are relevant to this document:
 

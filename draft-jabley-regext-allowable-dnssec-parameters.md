@@ -295,12 +295,11 @@ correctly signed zone as bogus. The worst outcome is that the zone
 is unsigned from the point of view of validators that lack support.
 This is no worse than if the DS data had been rejected.
 
-Registrants and DNS operators who publish DS data using only
-algorithms that are not yet widely supported should understand that
-their zones will not be validated by validators without that
-support. Validators also generally do not support the private
-algorithm values (253 and 254) in {{DNSKEY-IANA}}, and different
-parties may interpret them differently.
+Registrants and DNS operators who submit DS data using only algorithms
+that are not yet widely supported should understand that their zones
+are unlikely to be successfully validated.  Validators also generally
+do not support the private algorithm values (253 and 254) in
+{{DNSKEY-IANA}}, and different parties may interpret them differently.
 
 
 ## Weak Algorithms and Digest Types
@@ -336,13 +335,13 @@ delegation itself.
 ## Algorithm Agility
 
 Policies that are too restrictive, or that are not kept current
-({{current}}), can prevent registrants from moving away from
-algorithms that are becoming weaker or from adopting new ones, such
-as those designed to resist cryptanalysis by quantum computers. This
-prolongs exposure to the weaknesses that algorithm agility is meant
-to address. The recommendations in this document are intended to
-remove that obstacle while still allowing registries and registrars
-to exclude values that offer no security benefit.
+({{current}}), can prevent DNS operators and registrants from moving
+away from algorithms that are becoming weaker or from adopting new
+ones, such as those designed to resist cryptanalysis by quantum
+computers. This prolongs exposure to the weaknesses that algorithm
+agility is meant to address. The recommendations in this document
+are intended to remove that obstacle while still allowing registries
+and registrars to exclude values that offer no security benefit.
 
 
 # IANA Considerations {#iana}

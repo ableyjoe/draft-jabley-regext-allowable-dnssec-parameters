@@ -156,15 +156,16 @@ operation of a zone, and are not used by this document.
 
 Registries and registrars SHOULD accept any value of the
 `<secDNS:alg>` and `<secDNS:digestType>` elements that is not
-excluded by {{deny}}. Registries and registrars SHOULD NOT constrain
-these values using a static allowlist.
+excluded by {{deny}}, and SHOULD NOT reject values on any other
+basis.
 
-Registries and registrars SHOULD NOT reject a value solely because
-they do not themselves implement the corresponding algorithm. A
-validator that does not support the algorithm or digest type
-specified in a DS record disregards that record
-({{Section 5.2 of !RFC4035}}), so accepting such values does not
-introduce a risk of resolution failure.
+In particular, registries and registrars SHOULD NOT reject a value
+solely because they do not themselves implement the corresponding
+algorithm. A validator that does not support the algorithm or digest
+type specified in a DS record disregards that record
+({{Section 5.2 of !RFC4035}}, {{Section 5.2 of !RFC6840}}), so
+accepting such values does not introduce a risk of resolution
+failure.
 
 A registrar is not expected to accept a value that the registry
 for the corresponding domain name would reject.
@@ -220,27 +221,15 @@ and {{DS-IANA}} in their acceptance policy within 30 days of those
 changes being published.
 
 
-## Allowlists {#allowlists}
-
-A registry or registrar that constrains `<secDNS:alg>` or
-`<secDNS:digestType>` values using an allowlist, contrary to
-{{default}}, SHOULD:
-
-* include, at a minimum, every value marked "RECOMMENDED" in the
-  "Use for DNSSEC Signing" column of {{DNSKEY-IANA}} or the "Use for
-  DNSSEC Delegation" column of {{DS-IANA}};
-* review new assignments in those IANA registries within the period
-  specified in {{current}}; and
-* publish the allowlist as described in {{publication}}.
-
-
 ## Publication {#publication}
 
-Registries and registrars SHOULD publish the `<secDNS:alg>` and
-`<secDNS:digestType>` values they accept, at a stable and publicly
-accessible location so that registrants and DNS operators can make
-informed choices. For registries that publish a DNSSEC Practice
-Statement {{?RFC6841}}, that document is a suitable location.
+Registries and registrars SHOULD publish their policy for accepting
+`<secDNS:alg>` and `<secDNS:digestType>` values at a stable and
+publicly accessible location, so that registrants and DNS operators
+can make informed choices. The published policy SHOULD state whether
+it follows this document and SHOULD describe any respect in which it
+does not. For registries that publish a DNSSEC Practice Statement
+{{?RFC6841}}, that document is a suitable location.
 
 
 # Security Considerations {#security}

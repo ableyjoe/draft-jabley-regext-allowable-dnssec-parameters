@@ -114,13 +114,13 @@ to an IANA registry, the phrase "IANA registry" is used.
 
 # DNSSEC Parameters in EPP
 
-{{!RFC5910 section 4.1}} defines two child elements of the
+{{!Section 4.1 of RFC5910}} defines two child elements of the
 &lt;secDNS:dsData> element that relate to the signing algorithm:
 
 * &lt;secDNS:alg> contains an algorithm value as described in
-{{!RFC4034 section 5.1.2}}
+{{!section 5.1.2 of RFC4034}}
 * &lt;secDNS:digestType> contains a digest type value as described in
-{{!RFC4034 section 5.1.3}}
+{{!section 5.1.3 of RFC4034}}
 
 Requirements levels corresponding to the values of the &lt;secDNS:alg>
 and &lt;secDNS:digestType> are managed according to {{!RFC9904}} and
@@ -142,8 +142,8 @@ of values to registrants.
 Alternatively, registries and registrars MAY constrain the values for the
 &lt;secDNS:alg> and &lt;secDNS:digestType> parameters using a denylist
 which allows all values by default, but denies values that
-are marked "MUST NOT Implement for DNSSEC Signing" {{IANA-DNSKEY}} or
-"MUST NOT Implement for DNSSEC Delegation" {{IANA-DS}}. Such
+are marked "MUST NOT Implement for DNSSEC Signing" {{DNSKEY-IANA}} or
+"MUST NOT Implement for DNSSEC Delegation" {{DS-IANA}}. Such
 a denylist SHOULD be updated periodically in order to reflect changes
 that are published in those registries.
 

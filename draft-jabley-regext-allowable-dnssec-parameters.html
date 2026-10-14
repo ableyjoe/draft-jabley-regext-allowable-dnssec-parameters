@@ -1304,11 +1304,12 @@ appear in all capitals, as shown here.<a href="#section-2-3" class="pilcrow">¶<
       <h2 id="name-dnssec-parameters-in-epp">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-dnssec-parameters-in-epp" class="section-name selfRef">DNSSEC Parameters in EPP</a>
       </h2>
-<p id="section-3-1">This document is concerned only with the <code>&lt;secDNS:alg&gt;</code> and
-<code>&lt;secDNS:digestType&gt;</code> elements of the DS data interface. The key data
-interface described in <span><a href="https://rfc-editor.org/rfc/rfc5910#section-4.2" class="relref">Section 4.2</a> of [<a href="#RFC5910" class="cite xref">RFC5910</a>]</span> is out of scope.
-This document does not change the contents of the IANA registries or
-the requirement levels they record.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-1">This document is concerned only with which <code>&lt;secDNS:alg&gt;</code> and
+<code>&lt;secDNS:digestType&gt;</code> values registries and registrars accept in the
+DS data interface. The key data interface described in
+<span><a href="https://rfc-editor.org/rfc/rfc5910#section-4.2" class="relref">Section 4.2</a> of [<a href="#RFC5910" class="cite xref">RFC5910</a>]</span> is out of scope. This document does not
+change the contents of the IANA registries or the requirement levels
+they record.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <p id="section-3-2"><span><a href="https://rfc-editor.org/rfc/rfc5910#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC5910" class="cite xref">RFC5910</a>]</span> defines two child elements of the
 <code>&lt;secDNS:dsData&gt;</code> element that are relevant to this document:<a href="#section-3-2" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -1510,14 +1511,13 @@ therefore limited by the weakest algorithm and digest type in its DS
 data that validators still accept. Publishing DS data that uses a
 weak algorithm or digest type alongside DS data that uses a strong
 one does not preserve the strength of the stronger combination.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
-<p id="section-6.2-2">The values denied in <a href="#deny" class="auto internal xref">Section 4.2</a> either cannot be used in DS records
-or are no longer expected to be validated, so they add no assurance.
-Values that are deprecated for signing or delegation but are still
-validated represent a greater risk. This document does not recommend
-rejecting them, since doing so would interfere with DNS operators
-and registrants who have not yet completed an algorithm rollover.
-The risk of using a weak algorithm or digest type falls mainly on
-the zone concerned and the zones beneath it.<a href="#section-6.2-2" class="pilcrow">¶</a></p>
+<p id="section-6.2-2">The values denied in <a href="#deny" class="auto internal xref">Section 4.2</a> add no assurance. Values that are
+deprecated for signing or delegation but are still validated represent
+a greater risk. This document does not recommend rejecting them,
+since doing so would interfere with DNS operators and registrants
+who have not yet completed an algorithm rollover.  The risk of using
+a weak algorithm or digest type falls mainly on the zone concerned
+and the zones beneath it.<a href="#section-6.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="unauthorised-changes">

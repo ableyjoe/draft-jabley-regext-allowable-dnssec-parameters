@@ -84,16 +84,16 @@ Table of Contents
      4.3.  Existing DS Data
      4.4.  Keeping Current
      4.5.  Publication
-   5.  Security Considerations
-     5.1.  Unsupported Algorithms and Digest Types
-     5.2.  Weak Algorithms and Digest Types
-     5.3.  Unauthorised Changes
-     5.4.  Robustness of Implementations
-     5.5.  Algorithm Agility
-   6.  IANA Considerations
-   7.  References
-     7.1.  Normative References
-     7.2.  Informative References
+   5.  Operational Considerations
+   6.  Security Considerations
+     6.1.  Unsupported Algorithms and Digest Types
+     6.2.  Weak Algorithms and Digest Types
+     6.3.  Unauthorised Changes
+     6.4.  Algorithm Agility
+   7.  IANA Considerations
+   8.  References
+     8.1.  Normative References
+     8.2.  Informative References
    Acknowledgments
    Author's Address
 
@@ -294,9 +294,20 @@ Table of Contents
    does not.  For registries that publish a DNSSEC Practice Statement
    [RFC6841], that document is a suitable location.
 
-5.  Security Considerations
+5.  Operational Considerations
 
-5.1.  Unsupported Algorithms and Digest Types
+   Registry and registrar systems that process DS data, including
+   systems that generate zone data or publish registration data, may
+   encounter algorithm and digest type values they have not seen before.
+   Such systems need to handle unfamiliar values without failure, for
+   example by treating them as opaque numbers.  A failure in a
+   registry's own systems caused by an unfamiliar value could affect
+   many delegations, not only the one concerned, and is a more
+   significant risk than any effect on validation.
+
+6.  Security Considerations
+
+6.1.  Unsupported Algorithms and Digest Types
 
    The recommendations in Section 4 cause registries and registrars to
    accept algorithm and digest type values that they, and some
@@ -319,7 +330,7 @@ Table of Contents
    (253 and 254) in [DNSKEY-IANA], and different parties may interpret
    them differently.
 
-5.2.  Weak Algorithms and Digest Types
+6.2.  Weak Algorithms and Digest Types
 
    A validator may accept any valid chain of trust from the parent to
    the child, regardless of what other algorithms are present
@@ -338,7 +349,7 @@ Table of Contents
    weak algorithm or digest type falls mainly on the zone concerned and
    the zones beneath it.
 
-5.3.  Unauthorised Changes
+6.3.  Unauthorised Changes
 
    An attacker who can submit DS data for a domain name, for example by
    compromising a registrant's account at a registrar, could submit DS
@@ -347,15 +358,7 @@ Table of Contents
    with that access could already remove the DS data or change the
    delegation itself.
 
-5.4.  Robustness of Implementations
-
-   Software that processes DS data, including registry and registrar
-   systems and systems that consume data published by them, may
-   encounter values it has not seen before.  Such software needs to
-   handle unfamiliar algorithm and digest type values without failure,
-   for example by treating them as opaque numbers.
-
-5.5.  Algorithm Agility
+6.4.  Algorithm Agility
 
    Policies that are too restrictive, or that are not kept current
    (Section 4.4), can prevent registrants from moving away from
@@ -366,13 +369,13 @@ Table of Contents
    remove that obstacle while still allowing registries and registrars
    to exclude values that offer no security benefit.
 
-6.  IANA Considerations
+7.  IANA Considerations
 
    This document has no IANA actions.
 
-7.  References
+8.  References
 
-7.1.  Normative References
+8.1.  Normative References
 
    [DNSKEY-IANA]
               IANA, "DNS Security Algorithm Numbers", n.d.,
@@ -428,7 +431,7 @@ Table of Contents
               DOI 10.17487/RFC9904, November 2025,
               <https://www.rfc-editor.org/rfc/rfc9904>.
 
-7.2.  Informative References
+8.2.  Informative References
 
    [RFC6841]  Ljunggren, F., Eklund Lowinder, AM., and T. Okubo, "A
               Framework for DNSSEC Policies and DNSSEC Practice

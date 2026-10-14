@@ -113,8 +113,6 @@ to an IANA registry, the phrase "IANA registry" is used.
 
 # DNSSEC Parameters in EPP
 
-# DNSSEC Parameters in EPP
-
 {{Section 4.1 of !RFC5910}} defines two child elements of the
 `<secDNS:dsData>` element that are relevant to this document:
 
@@ -239,8 +237,7 @@ A registry or registrar that constrains `<secDNS:alg>` or
 ## Publication {#publication}
 
 Registries and registrars SHOULD publish the `<secDNS:alg>` and
-`<secDNS:digestType>` values they accept, including any additional
-restrictions applied under {{deny}}, at a stable and publicly
+`<secDNS:digestType>` values they accept, at a stable and publicly
 accessible location so that registrants and DNS operators can make
 informed choices. For registries that publish a DNSSEC Practice
 Statement {{?RFC6841}}, that document is a suitable location.
@@ -282,13 +279,14 @@ data that validators still accept. Publishing DS data that uses a
 weak algorithm or digest type alongside DS data that uses a strong
 one does not preserve the strength of the stronger combination.
 
-The values denied in {{deny}} are those that validators are no longer
-expected to validate, so they add no assurance. Values that are
-deprecated for signing or delegation but are still validated
-represent a greater risk. {{deny}} allows registries and registrars
-to refuse to add DS data that uses such values. Whether or not they
-do so, the risk of using a weak algorithm or digest type falls
-mainly on the zone concerned and the zones beneath it.
+The values denied in {{deny}} either cannot be used in DS records or
+are no longer expected to be validated, so they add no assurance.
+Values that are deprecated for signing or delegation but are still
+validated represent a greater risk. This document does not
+recommend rejecting them, since doing so would interfere with
+registrants who have not yet completed an algorithm rollover. The
+risk of using a weak algorithm or digest type falls mainly on the
+zone concerned and the zones beneath it.
 
 
 ## Unauthorised Changes

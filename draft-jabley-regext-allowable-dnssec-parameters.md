@@ -59,43 +59,58 @@ registrars that allows new algorithms to be adopted without delay.
 # Introduction {#intro}
 
 DNS Security Extensions (DNSSEC) are described in {{!RFC9364}}. The
-Extensible Provisioning Protocol (EPP) is described in {{!RFC5730}}.
-A mapping of DNSSEC parameters for EPP is described in {{!RFC5910}}.
+Extensible Provisioning Protocol (EPP) {{!RFC5730}} is used by
+registrars to manage domain names in domain registries, and
+{{!RFC5910}} specifies how DNSSEC parameters are conveyed in EPP.
 
-EPP is used by domain registrars to maintain various parameters
-associated with registered domain names in domain registries.  In
-particular, the choice of DNSSEC algorithm by the registrant of a
-signed zone must be submitted to a registry via a registrar in order
-for a secure delegation to be published. If a registrant changes
-the algorithm used, new parameters must be submitted.
+For a signed zone to have a secure delegation, DS data must be
+submitted to the parent registry, usually by a registrar using EPP.
+That data identifies the algorithm used to sign the zone and the
+digest type used to construct the DS record. When the algorithm
+changes, new DS data must be submitted.
 
-Both EPP and DNSSEC are extensible; in particular, they both
-accommodate the use of new cryptographic algorithms. This is important
-because guidance on the suitability of particular algorithms changes
-over time. For example, algorithms that were once considered good
-choices are weakened through advances in cryptanalysis; new algorithms
-have been developed in order to provide defence against threats of
-cryptanalysis by quantum computers. New algorithms that are specified
-for use with DNSSEC are assigned new codepoints.
+Guidance on suitable algorithms changes over time. Advances in
+cryptanalysis weaken existing algorithms, and new algorithms are
+being developed, for example to resist cryptanalysis by quantum
+computers. Each new algorithm or digest type specified for DNSSEC is
+assigned a new codepoint, and following current guidance is only
+possible if registries and registrars accept those codepoints.
 
-For a registrant to be able to follow evolving guidance about the
-choice of signing algorithm, it must be possible for the codepoints
-assigned to new algorithms to be accepted by both registry and
-registrar. It is therefore important that any constraints imposed
-by registries or registrars recognise this need, and that
-the constraints are sufficiently liberal that they do not prevent
-registrants from using new algorithms.
+Registries and registrars often constrain the values they accept
+using allowlists. What those allowlists contain, whether they are
+published and how they are maintained varies, and this inconsistency
+makes new algorithms difficult to deploy. [CITATIONS NEEDED]
 
-The allowable values for DNSSEC parameters in EPP are often constrained
-using an allowlist by registries and registrars. The nature
-of the allowlist (e.g. what is allowed, whether the allowlist is
-published and how it is maintained) varies between registries and
-registrars, and the lack of consistency can make it a challenge to
-deploy new algorithms. [CITATIONS NEEDED]
+The inconsistency is felt most by DNS operators. The algorithm used
+for a zone is generally chosen by the DNS operator that signs it,
+which may or may not be the registrar, and that choice is typically
+made once for many zones in many top-level domains, before any EPP
+transaction takes place. A DNS operator that cannot predict whether
+a registry will accept a new algorithm risks leaving zones stuck
+partway through an algorithm rollover, unable to retire the old
+algorithm because DS data for the new one was rejected. Where DS
+data is provisioned automatically, there may be nobody in a position
+to notice the rejection.
 
-This document recommends a consistent and liberal approach for
-registries and registrars to handle DNSSEC parameters in EPP
-in order to accommodate algorithm agility in secure delegations.
+Faced with this uncertainty, a DNS operator can use only algorithms
+that every relevant registry is known to accept, limiting registrants
+to what the most conservative registry allows. Alternatively, it can
+sign only zones whose registries have known policies, or not sign
+zones at all. DNSSEC deployment faces many obstacles, most of which
+are outside the scope of this document. Unpredictable registry policy
+is one of them, and removing it is a modest but real reduction in the
+friction associated with deploying DNSSEC.
+
+The IANA registries {{DNSKEY-IANA}} and {{DS-IANA}} already record
+which values are suitable for use with DNSSEC, and are updated as
+guidance changes {{RFC9904}}. If registries base their acceptance
+policies on those IANA registries, DNS operators can know in advance
+which algorithms will be accepted, and newly assigned algorithms
+become usable across registries at approximately the same time.
+
+This document recommends a consistent and liberal policy, based on
+those IANA registries, for the DNSSEC parameters that registries and
+registrars accept in EPP.
 
 
 # Conventions and Definitions

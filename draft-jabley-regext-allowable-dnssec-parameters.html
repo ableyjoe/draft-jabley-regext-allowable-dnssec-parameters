@@ -1387,43 +1387,34 @@ for the corresponding domain name would reject.<a href="#section-5.1-3" class="p
 <p id="section-5.2-1">The values to be denied are derived from the current contents of
 <span>[<a href="#DNSKEY-IANA" class="cite xref">DNSKEY-IANA</a>]</span> and <span>[<a href="#DS-IANA" class="cite xref">DS-IANA</a>]</span>, not from a fixed snapshot of those
 IANA registries.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
-<p id="section-5.2-2">Registries and registrars <span class="bcp14">SHOULD</span> reject a <code>&lt;secDNS:alg&gt;</code> value if
-any of the following apply:<a href="#section-5.2-2" class="pilcrow">¶</a></p>
+<p id="section-5.2-2">Registries and registrars <span class="bcp14">SHOULD</span> reject a <code>&lt;secDNS:alg&gt;</code> value
+unless both of the following conditions are met:<a href="#section-5.2-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.2-3.1">
-            <p id="section-5.2-3.1.1">the value is not assigned in <span>[<a href="#DNSKEY-IANA" class="cite xref">DNSKEY-IANA</a>]</span>, other than the
-values reserved for private algorithms (253 and 254);<a href="#section-5.2-3.1.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-3.1.1">the "Zone Signing" column for the value in <span>[<a href="#DNSKEY-IANA" class="cite xref">DNSKEY-IANA</a>]</span> is
+"Y"; and<a href="#section-5.2-3.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-3.2">
-            <p id="section-5.2-3.2.1">the "Zone Signing" column for the value is "N"; or<a href="#section-5.2-3.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-5.2-3.3">
-            <p id="section-5.2-3.3.1">the "Use for DNSSEC Validation" column for the value is
-"<span class="bcp14">MUST NOT</span>".<a href="#section-5.2-3.3.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-3.2.1">the "Use for DNSSEC Validation" column for the value is not
+"<span class="bcp14">MUST NOT</span>".<a href="#section-5.2-3.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-5.2-4">Registries and registrars <span class="bcp14">SHOULD</span> reject a <code>&lt;secDNS:digestType&gt;</code>
-value if either of the following apply:<a href="#section-5.2-4" class="pilcrow">¶</a></p>
+<p id="section-5.2-4">These conditions admit the values reserved for private algorithms,
+which are marked "Y" in the "Zone Signing" column. They exclude
+values that are unassigned or reserved, and values that are not
+usable in DS records.<a href="#section-5.2-4" class="pilcrow">¶</a></p>
+<p id="section-5.2-5">Registries and registrars <span class="bcp14">SHOULD</span> reject a <code>&lt;secDNS:digestType&gt;</code>
+value unless either of the following conditions is met:<a href="#section-5.2-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.2-5.1">
-            <p id="section-5.2-5.1.1">the value is not assigned in <span>[<a href="#DS-IANA" class="cite xref">DS-IANA</a>]</span>, other than the values
-reserved for private use (253 and 254); or<a href="#section-5.2-5.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.2-6.1">
+            <p id="section-5.2-6.1.1">the "Use for DNSSEC Validation" column for the value in
+<span>[<a href="#DS-IANA" class="cite xref">DS-IANA</a>]</span> contains a requirement level other than "<span class="bcp14">MUST NOT</span>";
+or<a href="#section-5.2-6.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-5.2-5.2">
-            <p id="section-5.2-5.2.1">the "Use for DNSSEC Validation" column for the value is
-"<span class="bcp14">MUST NOT</span>".<a href="#section-5.2-5.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-5.2-6.2">
+            <p id="section-5.2-6.2.1">the value is reserved for private use.<a href="#section-5.2-6.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-5.2-6">In addition, registries and registrars <span class="bcp14">MAY</span> reject requests to add
-DS data whose <code>&lt;secDNS:alg&gt;</code> value is marked "<span class="bcp14">MUST NOT</span>" in the
-"Use for DNSSEC Signing" column of <span>[<a href="#DNSKEY-IANA" class="cite xref">DNSKEY-IANA</a>]</span>, or whose
-<code>&lt;secDNS:digestType&gt;</code> value is marked "<span class="bcp14">MUST NOT</span>" in the "Use for
-DNSSEC Delegation" column of <span>[<a href="#DS-IANA" class="cite xref">DS-IANA</a>]</span>. At the time of writing
-this includes algorithms 5 and 7 and digest type 1
-(<span>[<a href="#RFC9905" class="cite xref">RFC9905</a>]</span>), which remain in use and are still recommended for
-validation. A registry or registrar that applies this additional
-restriction should consider the impact on registrants who have not
-yet completed an algorithm rollover.<a href="#section-5.2-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="existing">
@@ -1661,12 +1652,8 @@ to exclude values that offer no security benefit.<a href="#section-6.5-1" class=
         </h3>
 <dl class="references">
 <dt id="RFC6841">[RFC6841]</dt>
-        <dd>
-<span class="refAuthor">Ljunggren, F.</span>, <span class="refAuthor">Eklund Lowinder, AM.</span>, and <span class="refAuthor">T. Okubo</span>, <span class="refTitle">"A Framework for DNSSEC Policies and DNSSEC Practice Statements"</span>, <span class="seriesInfo">RFC 6841</span>, <span class="seriesInfo">DOI 10.17487/RFC6841</span>, <time datetime="2013-01" class="refDate">January 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6841">https://www.rfc-editor.org/rfc/rfc6841</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC9905">[RFC9905]</dt>
       <dd>
-<span class="refAuthor">Hardaker, W.</span> and <span class="refAuthor">W. Kumari</span>, <span class="refTitle">"Deprecating the Use of SHA-1 in DNSSEC Signature Algorithms"</span>, <span class="seriesInfo">RFC 9905</span>, <span class="seriesInfo">DOI 10.17487/RFC9905</span>, <time datetime="2025-11" class="refDate">November 2025</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9905">https://www.rfc-editor.org/rfc/rfc9905</a>&gt;</span>. </dd>
+<span class="refAuthor">Ljunggren, F.</span>, <span class="refAuthor">Eklund Lowinder, AM.</span>, and <span class="refAuthor">T. Okubo</span>, <span class="refTitle">"A Framework for DNSSEC Policies and DNSSEC Practice Statements"</span>, <span class="seriesInfo">RFC 6841</span>, <span class="seriesInfo">DOI 10.17487/RFC6841</span>, <time datetime="2013-01" class="refDate">January 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6841">https://www.rfc-editor.org/rfc/rfc6841</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>

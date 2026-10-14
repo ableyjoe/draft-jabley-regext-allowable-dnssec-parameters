@@ -113,20 +113,43 @@ to an IANA registry, the phrase "IANA registry" is used.
 
 # DNSSEC Parameters in EPP
 
+# DNSSEC Parameters in EPP
+
 {{Section 4.1 of !RFC5910}} defines two child elements of the
-`<secDNS:dsData>` element that relate to the signing algorithm:
+`<secDNS:dsData>` element that are relevant to this document:
 
-* `<secDNS:alg>` contains an algorithm value as described in
-  {{Section 5.1.2 of !RFC4034}}
-* `<secDNS:digestType>` contains a digest type value as described in
-  {{Section 5.1.3 of !RFC4034}}
+* `<secDNS:alg>` contains the algorithm number of the DNSKEY
+  referenced by the DS record, as described in
+  {{Section 5.1.2 of !RFC4034}}; and
+* `<secDNS:digestType>` contains the algorithm used to construct
+  the digest, as described in {{Section 5.1.3 of !RFC4034}}.
 
-Requirements levels corresponding to the values of the `<secDNS:alg>`
-and `<secDNS:digestType>` are managed according to {{!RFC9904}} and
-current recommendations can be found in the corresponding IANA
-registries {{DNSKEY-IANA}} and {{DS-IANA}}. Of particular relevance
-to this document are the columns labelled "Implement for DNSSEC
-Signing" and "Implement for DNSSEC Delegation".
+Values for these elements are drawn from the IANA registries
+{{DNSKEY-IANA}} and {{DS-IANA}} respectively. Following
+{{!RFC9904}}, those IANA registries are the canonical source of
+requirement levels for each value, and those requirement levels are
+expected to change over time.
+
+This document refers to the following columns in {{DNSKEY-IANA}}:
+
+* "Zone Signing", which indicates whether an algorithm may appear
+  in DNSKEY, RRSIG and DS records;
+* "Use for DNSSEC Signing", which gives the requirement level for
+  using an algorithm to sign zones; and
+* "Use for DNSSEC Validation", which gives the requirement level for
+  using an algorithm in DNSSEC validators.
+
+This document refers to the following columns in {{DS-IANA}}:
+
+* "Use for DNSSEC Delegation", which gives the requirement level for
+  using a digest type in DS records published by authoritative
+  servers; and
+* "Use for DNSSEC Validation", which gives the requirement level for
+  using a digest type in DNSSEC validators.
+
+The "Implement for" columns in those IANA registries describe
+requirements for software implementations rather than for the
+operation of a zone, and are not used by this document.
 
 
 # Recommendations for Registries and Registrars {#recommendations}

@@ -229,7 +229,7 @@ Registries and registrars SHOULD publish the `<secDNS:alg>` and
 restrictions applied under {{deny}}, at a stable and publicly
 accessible location so that registrants and DNS operators can make
 informed choices. For registries that publish a DNSSEC Practice
-Statement {{RFC6841}}, that document is a suitable location.
+Statement {{?RFC6841}}, that document is a suitable location.
 
 
 # Security Considerations {#security}

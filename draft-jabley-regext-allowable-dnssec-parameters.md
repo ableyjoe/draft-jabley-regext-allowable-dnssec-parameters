@@ -129,8 +129,6 @@ to this document are the columns labelled "Implement for DNSSEC
 Signing" and "Implement for DNSSEC Delegation".
 
 
-# Recommendations for Registries and Registrars
-
 # Recommendations for Registries and Registrars {#recommendations}
 
 ## Default Policy {#default}

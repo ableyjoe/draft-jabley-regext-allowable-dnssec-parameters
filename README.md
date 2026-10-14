@@ -1,6 +1,6 @@
 <!-- regenerate: on (set to off if you edit this file) -->
 
-# Liberal Acceptance of DNSSEC Parameters in EPP
+# Acceptance of DNSSEC Parameters in EPP
 
 This is the working area for the individual Internet-Draft, "Liberal Acceptance of DNSSEC Parameters in EPP".
 

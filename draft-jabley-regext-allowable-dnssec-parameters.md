@@ -1,5 +1,5 @@
 ---
-title: "Liberal Acceptance of DNSSEC Parameters in EPP"
+title: "Acceptance of DNSSEC Parameters in EPP"
 #abbrev: "TODO - Abbreviation"
 category: bcp
 

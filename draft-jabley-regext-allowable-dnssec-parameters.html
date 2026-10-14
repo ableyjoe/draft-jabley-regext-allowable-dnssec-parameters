@@ -1305,54 +1305,59 @@ appear in all capitals, as shown here.<a href="#section-2-3" class="pilcrow">¶<
       <h2 id="name-dnssec-parameters-in-epp">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-dnssec-parameters-in-epp" class="section-name selfRef">DNSSEC Parameters in EPP</a>
       </h2>
-<p id="section-3-1"><span><a href="https://rfc-editor.org/rfc/rfc5910#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC5910" class="cite xref">RFC5910</a>]</span> defines two child elements of the
-<code>&lt;secDNS:dsData&gt;</code> element that are relevant to this document:<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-1">This document is concerned only with the <code>&lt;secDNS:alg&gt;</code> and
+<code>&lt;secDNS:digestType&gt;</code> elements of the DS data interface. The key data
+interface described in <span><a href="https://rfc-editor.org/rfc/rfc5910#section-4.2" class="relref">Section 4.2</a> of [<a href="#RFC5910" class="cite xref">RFC5910</a>]</span> is out of scope.
+This document does not change the contents of the IANA registries or
+the requirement levels they record.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2"><span><a href="https://rfc-editor.org/rfc/rfc5910#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC5910" class="cite xref">RFC5910</a>]</span> defines two child elements of the
+<code>&lt;secDNS:dsData&gt;</code> element that are relevant to this document:<a href="#section-3-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3-2.1">
-          <p id="section-3-2.1.1"><code>&lt;secDNS:alg&gt;</code> contains the algorithm number of the DNSKEY
+<li class="normal" id="section-3-3.1">
+          <p id="section-3-3.1.1"><code>&lt;secDNS:alg&gt;</code> contains the algorithm number of the DNSKEY
 referenced by the DS record, as described in
-<span><a href="https://rfc-editor.org/rfc/rfc4034#section-5.1.2" class="relref">Section 5.1.2</a> of [<a href="#RFC4034" class="cite xref">RFC4034</a>]</span>; and<a href="#section-3-2.1.1" class="pilcrow">¶</a></p>
+<span><a href="https://rfc-editor.org/rfc/rfc4034#section-5.1.2" class="relref">Section 5.1.2</a> of [<a href="#RFC4034" class="cite xref">RFC4034</a>]</span>; and<a href="#section-3-3.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-3-2.2">
-          <p id="section-3-2.2.1"><code>&lt;secDNS:digestType&gt;</code> contains the algorithm used to construct
-the digest, as described in <span><a href="https://rfc-editor.org/rfc/rfc4034#section-5.1.3" class="relref">Section 5.1.3</a> of [<a href="#RFC4034" class="cite xref">RFC4034</a>]</span>.<a href="#section-3-2.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-3-3.2">
+          <p id="section-3-3.2.1"><code>&lt;secDNS:digestType&gt;</code> contains the algorithm used to construct
+the digest, as described in <span><a href="https://rfc-editor.org/rfc/rfc4034#section-5.1.3" class="relref">Section 5.1.3</a> of [<a href="#RFC4034" class="cite xref">RFC4034</a>]</span>.<a href="#section-3-3.2.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-3-3">Values for these elements are drawn from the IANA registries
+<p id="section-3-4">Values for these elements are drawn from the IANA registries
 <span>[<a href="#DNSKEY-IANA" class="cite xref">DNSKEY-IANA</a>]</span> and <span>[<a href="#DS-IANA" class="cite xref">DS-IANA</a>]</span> respectively. Following
 <span>[<a href="#RFC9904" class="cite xref">RFC9904</a>]</span>, those IANA registries are the canonical source of
 requirement levels for each value, and those requirement levels are
-expected to change over time.<a href="#section-3-3" class="pilcrow">¶</a></p>
-<p id="section-3-4">This document refers to the following columns in <span>[<a href="#DNSKEY-IANA" class="cite xref">DNSKEY-IANA</a>]</span>:<a href="#section-3-4" class="pilcrow">¶</a></p>
+expected to change over time.<a href="#section-3-4" class="pilcrow">¶</a></p>
+<p id="section-3-5">This document refers to the following columns in <span>[<a href="#DNSKEY-IANA" class="cite xref">DNSKEY-IANA</a>]</span>:<a href="#section-3-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3-5.1">
-          <p id="section-3-5.1.1">"Zone Signing", which indicates whether an algorithm may appear
-in DNSKEY, RRSIG and DS records;<a href="#section-3-5.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3-6.1">
+          <p id="section-3-6.1.1">"Zone Signing", which indicates whether an algorithm may appear
+in DNSKEY, RRSIG and DS records;<a href="#section-3-6.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-3-5.2">
-          <p id="section-3-5.2.1">"Use for DNSSEC Signing", which gives the requirement level for
-using an algorithm to sign zones; and<a href="#section-3-5.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-3-6.2">
+          <p id="section-3-6.2.1">"Use for DNSSEC Signing", which gives the requirement level for
+using an algorithm to sign zones; and<a href="#section-3-6.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-3-5.3">
-          <p id="section-3-5.3.1">"Use for DNSSEC Validation", which gives the requirement level for
-using an algorithm in DNSSEC validators.<a href="#section-3-5.3.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-3-6.3">
+          <p id="section-3-6.3.1">"Use for DNSSEC Validation", which gives the requirement level for
+using an algorithm in DNSSEC validators.<a href="#section-3-6.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-3-6">This document refers to the following columns in <span>[<a href="#DS-IANA" class="cite xref">DS-IANA</a>]</span>:<a href="#section-3-6" class="pilcrow">¶</a></p>
+<p id="section-3-7">This document refers to the following columns in <span>[<a href="#DS-IANA" class="cite xref">DS-IANA</a>]</span>:<a href="#section-3-7" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3-7.1">
-          <p id="section-3-7.1.1">"Use for DNSSEC Delegation", which gives the requirement level for
+<li class="normal" id="section-3-8.1">
+          <p id="section-3-8.1.1">"Use for DNSSEC Delegation", which gives the requirement level for
 using a digest type in DS records published by authoritative
-servers; and<a href="#section-3-7.1.1" class="pilcrow">¶</a></p>
+servers; and<a href="#section-3-8.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-3-7.2">
-          <p id="section-3-7.2.1">"Use for DNSSEC Validation", which gives the requirement level for
-using a digest type in DNSSEC validators.<a href="#section-3-7.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-3-8.2">
+          <p id="section-3-8.2.1">"Use for DNSSEC Validation", which gives the requirement level for
+using a digest type in DNSSEC validators.<a href="#section-3-8.2.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-3-8">The "Implement for" columns in those IANA registries describe
+<p id="section-3-9">The "Implement for" columns in those IANA registries describe
 requirements for software implementations rather than for the
-operation of a zone, and are not used by this document.<a href="#section-3-8" class="pilcrow">¶</a></p>
+operation of a zone, and are not used by this document.<a href="#section-3-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="recommendations">

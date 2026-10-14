@@ -1,0 +1,447 @@
+
+
+
+
+Registration Protocols Extensions                               J. Abley
+Internet-Draft                                                Cloudflare
+Intended status: Best Current Practice                   14 October 2026
+Expires: 17 April 2027
+
+
+                 Acceptance of DNSSEC Parameters in EPP
+         draft-jabley-regext-allowable-dnssec-parameters-latest
+
+Abstract
+
+   The Extensible Provisioning Protocol (EPP) is used to submit DNSSEC
+   parameters for domain names to domain name registries.  Registries
+   and registrars often restrict the values they accept, and those
+   restrictions vary from registry to registry.  The resulting
+   uncertainty makes it difficult for DNS operators to adopt new
+   algorithms.  This document recommends that registries and registrars
+   base their acceptance policies on the IANA registries for DNSSEC
+   algorithms and digest types.
+
+About This Document
+
+   This note is to be removed before publishing as an RFC.
+
+   The latest revision of this draft can be found at
+   https://ableyjoe.github.io/draft-jabley-regext-allowable-dnssec-
+   parameters/draft-jabley-regext-allowable-dnssec-parameters.html.
+   Status information for this document may be found at
+   https://datatracker.ietf.org/doc/draft-jabley-regext-allowable-
+   dnssec-parameters/.
+
+   Discussion of this document takes place on the Registration Protocols
+   Extensions Working Group mailing list (mailto:regext@ietf.org), which
+   is archived at https://mailarchive.ietf.org/arch/browse/regext/.
+   Subscribe at https://www.ietf.org/mailman/listinfo/regext/.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/ableyjoe/draft-jabley-regext-allowable-dnssec-
+   parameters.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 17 April 2027.
+
+Copyright Notice
+
+   Copyright (c) 2026 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction
+   2.  Conventions and Definitions
+   3.  DNSSEC Parameters in EPP
+   4.  Recommendations for Registries and Registrars
+     4.1.  Default Policy
+     4.2.  Values to Deny
+     4.3.  Existing DS Data
+     4.4.  Keeping Current
+     4.5.  Publication
+   5.  Operational Considerations
+   6.  Security Considerations
+     6.1.  Unsupported Algorithms and Digest Types
+     6.2.  Weak Algorithms and Digest Types
+     6.3.  Unauthorised Changes
+     6.4.  Algorithm Agility
+   7.  IANA Considerations
+   8.  References
+     8.1.  Normative References
+     8.2.  Informative References
+   Acknowledgments
+   Author's Address
+
+1.  Introduction
+
+   DNS Security Extensions (DNSSEC) are described in [RFC9364].  The
+   Extensible Provisioning Protocol (EPP) [RFC5730] is used by
+   registrars to manage domain names in domain registries, and [RFC5910]
+   specifies how DNSSEC parameters are conveyed in EPP.
+
+   For a signed zone to have a secure delegation, DS data must be
+   submitted to the parent registry, usually by a registrar using EPP.
+   That data identifies the algorithm used to sign the zone and the
+   digest type used to construct the DS record.  When the algorithm
+   changes, new DS data must be submitted.
+
+   Guidance on suitable algorithms changes over time.  Advances in
+   cryptanalysis weaken existing algorithms, and new algorithms are
+   being developed, for example to resist cryptanalysis by quantum
+   computers.  Each new algorithm or digest type specified for DNSSEC is
+   assigned a new codepoint, and following current guidance is only
+   possible if registries and registrars accept those codepoints.
+
+   Registries and registrars often constrain the values they accept
+   using allowlists.  What those allowlists contain, whether they are
+   published and how they are maintained varies, and this inconsistency
+   makes new algorithms difficult to deploy.  [CITATIONS NEEDED]
+
+   The inconsistency is felt most by DNS operators.  The algorithm used
+   for a zone is generally chosen by the DNS operator that signs it,
+   which may or may not be the registrar, and that choice is typically
+   made once for many zones in many top-level domains, before any EPP
+   transaction takes place.  A DNS operator that cannot predict whether
+   a registry will accept a new algorithm risks leaving zones stuck
+   partway through an algorithm rollover, unable to retire the old
+   algorithm because DS data for the new one was rejected.  Where DS
+   data is provisioned automatically, there may be nobody in a position
+   to notice the rejection.
+
+   Faced with this uncertainty, a DNS operator can use only algorithms
+   that every relevant registry is known to accept, limiting registrants
+   to what the most conservative registry allows.  Alternatively, it can
+   sign only zones whose registries have known policies, or not sign
+   zones at all.  DNSSEC deployment faces many obstacles, most of which
+   are outside the scope of this document.  Unpredictable registry
+   policy is one of them, and removing it is a modest but real reduction
+   in the friction associated with deploying DNSSEC.
+
+   The IANA registries [DNSKEY-IANA] and [DS-IANA] already record which
+   values are suitable for use with DNSSEC, and are updated as guidance
+   changes [RFC9904].  If registries base their acceptance policies on
+   those IANA registries, DNS operators can know in advance which
+   algorithms will be accepted, and newly assigned algorithms become
+   usable across registries at approximately the same time.
+
+   This document recommends a consistent and liberal policy, based on
+   those IANA registries, for the DNSSEC parameters that registries and
+   registrars accept in EPP.
+
+2.  Conventions and Definitions
+
+   This document assumes familiarity with DNS and domain name
+   registration terminology as defined in [RFC9499].
+
+   In this document, "registry" refers to a domain name registry as
+   described in [RFC9499].  Registries maintained by IANA are always
+   referred to as "IANA registries".
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+3.  DNSSEC Parameters in EPP
+
+   This document is concerned only with which <secDNS:alg> and
+   <secDNS:digestType> values registries and registrars accept in the DS
+   data interface.  The key data interface described in Section 4.2 of
+   [RFC5910] is out of scope.  This document does not change the
+   contents of the IANA registries or the requirement levels they
+   record.
+
+   Section 4.1 of [RFC5910] defines two child elements of the
+   <secDNS:dsData> element that are relevant to this document:
+
+   *  <secDNS:alg> contains the algorithm number of the DNSKEY
+      referenced by the DS record, as described in Section 5.1.2 of
+      [RFC4034]; and
+
+   *  <secDNS:digestType> contains the algorithm used to construct the
+      digest, as described in Section 5.1.3 of [RFC4034].
+
+   Values for these elements are drawn from the IANA registries
+   [DNSKEY-IANA] and [DS-IANA] respectively.  Following [RFC9904], those
+   IANA registries are the canonical source of requirement levels for
+   each value, and those requirement levels are expected to change over
+   time.
+
+   This document refers to the following columns in [DNSKEY-IANA]:
+
+   *  "Zone Signing", which indicates whether an algorithm may appear in
+      DNSKEY, RRSIG and DS records;
+
+   *  "Use for DNSSEC Signing", which gives the requirement level for
+      using an algorithm to sign zones; and
+
+   *  "Use for DNSSEC Validation", which gives the requirement level for
+      using an algorithm in DNSSEC validators.
+
+   This document refers to the following columns in [DS-IANA]:
+
+   *  "Use for DNSSEC Delegation", which gives the requirement level for
+      using a digest type in DS records published by authoritative
+      servers; and
+
+   *  "Use for DNSSEC Validation", which gives the requirement level for
+      using a digest type in DNSSEC validators.
+
+   The "Implement for" columns in those IANA registries describe
+   requirements for software implementations rather than for the
+   operation of a zone, and are not used by this document.
+
+4.  Recommendations for Registries and Registrars
+
+4.1.  Default Policy
+
+   Registries and registrars SHOULD accept any value of the <secDNS:alg>
+   and <secDNS:digestType> elements that is not excluded by Section 4.2,
+   and SHOULD NOT reject values on any other basis.  For a registrar,
+   this applies to values received from registrants and DNS operators
+   through whatever interface the registrar provides.
+
+   In particular, registries and registrars SHOULD NOT reject a value
+   solely because they do not themselves implement the corresponding
+   algorithm.  A validator that does not support the algorithm or digest
+   type specified in a DS record disregards that record (Section 5.2 of
+   [RFC4035], Section 5.2 of [RFC6840]), so accepting such values cannot
+   cause validation failures for the zone concerned.  Similarly,
+   registries and registrars that check the length of the
+   <secDNS:digest> element SHOULD do so only for digest types whose
+   digest length they know.
+
+   A registrar SHOULD NOT apply restrictions beyond those applied by the
+   registry for the domain name concerned.  A registrar is not expected
+   to accept a value that the registry would reject, and can instead
+   report the registry's rejection to its customer.
+
+4.2.  Values to Deny
+
+   Registries and registrars SHOULD reject a <secDNS:alg> value unless
+   its "Zone Signing" column in [DNSKEY-IANA] is "Y" and its "Use for
+   DNSSEC Validation" column is not "MUST NOT".  This admits the values
+   reserved for private algorithms.
+
+   Registries and registrars SHOULD reject a <secDNS:digestType> value
+   unless its "Use for DNSSEC Validation" column in [DS-IANA] contains a
+   requirement level other than "MUST NOT", or the value is reserved for
+   private use.
+
+   These rules exclude values that are unassigned, cannot appear in DS
+   records, or are no longer expected to be validated.  DS data
+   containing such values provides no security benefit and could suggest
+   that a zone is protected when it is not, and rejecting them also
+   catches errors in submitted data.  The rules apply to the current
+   contents of the IANA registries, which are expected to change over
+   time, not to a fixed snapshot of them.
+
+4.3.  Existing DS Data
+
+   The contents of the IANA registries change over time, so DS data that
+   was accepted in the past may later include values that Section 4.2
+   would exclude.
+
+   Registries and registrars MUST NOT reject a request to remove DS data
+   on the grounds that it contains values that would be denied under
+   Section 4.2.
+
+   Registries and registrars SHOULD NOT reject an otherwise acceptable
+   request on the grounds that DS data already associated with the
+   domain name contains values that would be denied under Section 4.2.
+
+4.4.  Keeping Current
+
+   Registries and registrars SHOULD reflect changes to [DNSKEY-IANA] and
+   [DS-IANA] in their acceptance policy within 30 days of those changes
+   being published.
+
+4.5.  Publication
+
+   Registries and registrars SHOULD publish their policy for accepting
+   <secDNS:alg> and <secDNS:digestType> values at a stable and publicly
+   accessible location, so that registrants and DNS operators can make
+   informed choices.  The published policy SHOULD state whether it
+   follows this document and SHOULD describe any respect in which it
+   does not.  For registries that publish a DNSSEC Practice Statement
+   [RFC6841], that document is a suitable location.
+
+5.  Operational Considerations
+
+   Registry and registrar systems that process DS data, including
+   systems that generate zone data or publish registration data, may
+   encounter algorithm and digest type values they have not seen before.
+   Such systems need to handle unfamiliar values without failure, for
+   example by treating them as opaque numbers.  A failure in a
+   registry's own systems caused by an unfamiliar value could affect
+   many delegations, not only the one concerned, and is a more
+   significant risk than any effect on validation.
+
+6.  Security Considerations
+
+6.1.  Unsupported Algorithms and Digest Types
+
+   The recommendations in Section 4 cause registries and registrars to
+   accept algorithm and digest type values that they, and some
+   validators, may not implement.
+
+   A validator that does not support the algorithm specified in a DS
+   record, or that does not support its digest type, disregards that
+   record (Section 5.2 of [RFC4035], Section 5.2 of [RFC6840]).  If no
+   remaining DS record for a delegation uses a supported algorithm and
+   digest type, the validator treats the child zone as unsigned.
+   Accepting such values therefore cannot cause a validator to treat a
+   correctly signed zone as bogus.  The worst outcome is that the zone
+   is unsigned from the point of view of validators that lack support.
+   This is no worse than if the DS data had been rejected.
+
+   Registrants and DNS operators who submit DS data using only
+   algorithms that are not yet widely supported should understand that
+   their zones are unlikely to be successfully validated.  Validators
+   also generally do not support the private algorithm values (253 and
+   254) in [DNSKEY-IANA], and different parties may interpret them
+   differently.
+
+6.2.  Weak Algorithms and Digest Types
+
+   A validator may accept any valid chain of trust from the parent to
+   the child, regardless of what other algorithms are present
+   (Section 5.11 of [RFC6840]).  The security of a signed delegation is
+   therefore limited by the weakest algorithm and digest type in its DS
+   data that validators still accept.  Publishing DS data that uses a
+   weak algorithm or digest type alongside DS data that uses a strong
+   one does not preserve the strength of the stronger combination.
+
+   The values denied in Section 4.2 add no assurance.  Values that are
+   deprecated for signing or delegation but are still validated
+   represent a greater risk.  This document does not recommend rejecting
+   them, since doing so would interfere with DNS operators and
+   registrants who have not yet completed an algorithm rollover.  The
+   risk of using a weak algorithm or digest type falls mainly on the
+   zone concerned and the zones beneath it.
+
+6.3.  Unauthorised Changes
+
+   An attacker who can submit DS data for a domain name, for example by
+   compromising a registrant's account at a registrar, could submit DS
+   data containing arbitrary values.  Accepting a wider range of values
+   does not materially change the impact of such an attack.  An attacker
+   with that access could already remove the DS data or change the
+   delegation itself.
+
+6.4.  Algorithm Agility
+
+   Policies that are too restrictive, or that are not kept current
+   (Section 4.4), can prevent DNS operators and registrants from moving
+   away from algorithms that are becoming weaker or from adopting new
+   ones, such as those designed to resist cryptanalysis by quantum
+   computers.  This prolongs exposure to the weaknesses that algorithm
+   agility is meant to address.  The recommendations in this document
+   are intended to remove that obstacle while still allowing registries
+   and registrars to exclude values that offer no security benefit.
+
+7.  IANA Considerations
+
+   This document has no IANA actions.
+
+8.  References
+
+8.1.  Normative References
+
+   [DNSKEY-IANA]
+              IANA, "DNS Security Algorithm Numbers", n.d.,
+              <https://www.iana.org/assignments/dns-sec-alg-numbers>.
+
+   [DS-IANA]  IANA, "Digest Algorithms", n.d.,
+              <https://www.iana.org/assignments/ds-rr-types>.
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC4034]  Arends, R., Austein, R., Larson, M., Massey, D., and S.
+              Rose, "Resource Records for the DNS Security Extensions",
+              RFC 4034, DOI 10.17487/RFC4034, March 2005,
+              <https://www.rfc-editor.org/rfc/rfc4034>.
+
+   [RFC4035]  Arends, R., Austein, R., Larson, M., Massey, D., and S.
+              Rose, "Protocol Modifications for the DNS Security
+              Extensions", RFC 4035, DOI 10.17487/RFC4035, March 2005,
+              <https://www.rfc-editor.org/rfc/rfc4035>.
+
+   [RFC5730]  Hollenbeck, S., "Extensible Provisioning Protocol (EPP)",
+              STD 69, RFC 5730, DOI 10.17487/RFC5730, August 2009,
+              <https://www.rfc-editor.org/rfc/rfc5730>.
+
+   [RFC5910]  Gould, J. and S. Hollenbeck, "Domain Name System (DNS)
+              Security Extensions Mapping for the Extensible
+              Provisioning Protocol (EPP)", RFC 5910,
+              DOI 10.17487/RFC5910, May 2010,
+              <https://www.rfc-editor.org/rfc/rfc5910>.
+
+   [RFC6840]  Weiler, S., Ed. and D. Blacka, Ed., "Clarifications and
+              Implementation Notes for DNS Security (DNSSEC)", RFC 6840,
+              DOI 10.17487/RFC6840, February 2013,
+              <https://www.rfc-editor.org/rfc/rfc6840>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+   [RFC9364]  Hoffman, P., "DNS Security Extensions (DNSSEC)", BCP 237,
+              RFC 9364, DOI 10.17487/RFC9364, February 2023,
+              <https://www.rfc-editor.org/rfc/rfc9364>.
+
+   [RFC9499]  Hoffman, P. and K. Fujiwara, "DNS Terminology", BCP 219,
+              RFC 9499, DOI 10.17487/RFC9499, March 2024,
+              <https://www.rfc-editor.org/rfc/rfc9499>.
+
+   [RFC9904]  Hardaker, W. and W. Kumari, "DNSSEC Cryptographic
+              Algorithm Recommendation Update Process", RFC 9904,
+              DOI 10.17487/RFC9904, November 2025,
+              <https://www.rfc-editor.org/rfc/rfc9904>.
+
+8.2.  Informative References
+
+   [RFC6841]  Ljunggren, F., Eklund Lowinder, AM., and T. Okubo, "A
+              Framework for DNSSEC Policies and DNSSEC Practice
+              Statements", RFC 6841, DOI 10.17487/RFC6841, January 2013,
+              <https://www.rfc-editor.org/rfc/rfc6841>.
+
+Acknowledgments
+
+   Bas Westerbaan provided post-quantum energy.  Scott Hollenbeck and
+   Gavin Brown provided welcome encouragement.
+
+Author's Address
+
+   Joe Abley
+   Cloudflare
+   Email: jabley@cloudflare.com

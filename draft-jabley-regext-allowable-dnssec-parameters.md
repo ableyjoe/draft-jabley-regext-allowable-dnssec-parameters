@@ -178,33 +178,26 @@ The values to be denied are derived from the current contents of
 {{DNSKEY-IANA}} and {{DS-IANA}}, not from a fixed snapshot of those
 IANA registries.
 
-Registries and registrars SHOULD reject a `<secDNS:alg>` value if
-any of the following apply:
+Registries and registrars SHOULD reject a `<secDNS:alg>` value
+unless both of the following conditions are met:
 
-* the value is not assigned in {{DNSKEY-IANA}}, other than the
-  values reserved for private algorithms (253 and 254);
-* the "Zone Signing" column for the value is "N"; or
-* the "Use for DNSSEC Validation" column for the value is
+* the "Zone Signing" column for the value in {{DNSKEY-IANA}} is
+  "Y"; and
+* the "Use for DNSSEC Validation" column for the value is not
   "MUST NOT".
+
+These conditions admit the values reserved for private algorithms,
+which are marked "Y" in the "Zone Signing" column. They exclude
+values that are unassigned or reserved, and values that are not
+usable in DS records.
 
 Registries and registrars SHOULD reject a `<secDNS:digestType>`
-value if either of the following apply:
+value unless either of the following conditions is met:
 
-* the value is not assigned in {{DS-IANA}}, other than the values
-  reserved for private use (253 and 254); or
-* the "Use for DNSSEC Validation" column for the value is
-  "MUST NOT".
-
-In addition, registries and registrars MAY reject requests to add
-DS data whose `<secDNS:alg>` value is marked "MUST NOT" in the
-"Use for DNSSEC Signing" column of {{DNSKEY-IANA}}, or whose
-`<secDNS:digestType>` value is marked "MUST NOT" in the "Use for
-DNSSEC Delegation" column of {{DS-IANA}}. At the time of writing
-this includes algorithms 5 and 7 and digest type 1
-({{?RFC9905}}), which remain in use and are still recommended for
-validation. A registry or registrar that applies this additional
-restriction should consider the impact on registrants who have not
-yet completed an algorithm rollover.
+* the "Use for DNSSEC Validation" column for the value in
+  {{DS-IANA}} contains a requirement level other than "MUST NOT";
+  or
+* the value is reserved for private use.
 
 
 ## Existing DS Data {#existing}

@@ -217,17 +217,24 @@ Table of Contents
 
    Registries and registrars SHOULD accept any value of the <secDNS:alg>
    and <secDNS:digestType> elements that is not excluded by Section 4.2,
-   and SHOULD NOT reject values on any other basis.
+   and SHOULD NOT reject values on any other basis.  For a registrar,
+   this applies to values received from registrants and DNS operators
+   through whatever interface the registrar provides.
 
    In particular, registries and registrars SHOULD NOT reject a value
    solely because they do not themselves implement the corresponding
    algorithm.  A validator that does not support the algorithm or digest
    type specified in a DS record disregards that record (Section 5.2 of
-   [RFC4035], Section 5.2 of [RFC6840]), so accepting such values does
-   not introduce a risk of resolution failure.
+   [RFC4035], Section 5.2 of [RFC6840]), so accepting such values cannot
+   cause validation failures for the zone concerned.  Similarly,
+   registries and registrars that check the length of the
+   <secDNS:digest> element SHOULD do so only for digest types whose
+   digest length they know.
 
-   A registrar is not expected to accept a value that the registry for
-   the corresponding domain name would reject.
+   A registrar SHOULD NOT apply restrictions beyond those applied by the
+   registry for the domain name concerned.  A registrar is not expected
+   to accept a value that the registry would reject, and can instead
+   report the registry's rejection to its customer.
 
 4.2.  Values to Deny
 

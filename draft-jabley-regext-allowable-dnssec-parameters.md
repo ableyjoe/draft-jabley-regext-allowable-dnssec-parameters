@@ -127,11 +127,12 @@ referred to as "IANA registries".
 
 # DNSSEC Parameters in EPP
 
-This document is concerned only with the `<secDNS:alg>` and
-`<secDNS:digestType>` elements of the DS data interface. The key data
-interface described in {{Section 4.2 of RFC5910}} is out of scope.
-This document does not change the contents of the IANA registries or
-the requirement levels they record.
+This document is concerned only with which `<secDNS:alg>` and
+`<secDNS:digestType>` values registries and registrars accept in the
+DS data interface. The key data interface described in
+{{Section 4.2 of RFC5910}} is out of scope. This document does not
+change the contents of the IANA registries or the requirement levels
+they record.
 
 {{Section 4.1 of !RFC5910}} defines two child elements of the
 `<secDNS:dsData>` element that are relevant to this document:
@@ -298,14 +299,13 @@ data that validators still accept. Publishing DS data that uses a
 weak algorithm or digest type alongside DS data that uses a strong
 one does not preserve the strength of the stronger combination.
 
-The values denied in {{deny}} either cannot be used in DS records
-or are no longer expected to be validated, so they add no assurance.
-Values that are deprecated for signing or delegation but are still
-validated represent a greater risk. This document does not recommend
-rejecting them, since doing so would interfere with DNS operators
-and registrants who have not yet completed an algorithm rollover.
-The risk of using a weak algorithm or digest type falls mainly on
-the zone concerned and the zones beneath it.
+The values denied in {{deny}} add no assurance. Values that are
+deprecated for signing or delegation but are still validated represent
+a greater risk. This document does not recommend rejecting them,
+since doing so would interfere with DNS operators and registrants
+who have not yet completed an algorithm rollover.  The risk of using
+a weak algorithm or digest type falls mainly on the zone concerned
+and the zones beneath it.
 
 
 ## Unauthorised Changes

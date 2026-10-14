@@ -253,6 +253,18 @@ does not. For registries that publish a DNSSEC Practice Statement
 {{?RFC6841}}, that document is a suitable location.
 
 
+# Operational Considerations {#operational}
+
+Registry and registrar systems that process DS data, including
+systems that generate zone data or publish registration data, may
+encounter algorithm and digest type values they have not seen
+before. Such systems need to handle unfamiliar values without
+failure, for example by treating them as opaque numbers. A failure in
+a registry's own systems caused by an unfamiliar value could affect
+many delegations, not only the one concerned, and is a more
+significant risk than any effect on validation.
+
+
 # Security Considerations {#security}
 
 ## Unsupported Algorithms and Digest Types
@@ -307,15 +319,6 @@ data containing arbitrary values. Accepting a wider range of values
 does not materially change the impact of such an attack. An attacker
 with that access could already remove the DS data or change the
 delegation itself.
-
-
-## Robustness of Implementations
-
-Software that processes DS data, including registry and registrar
-systems and systems that consume data published by them, may
-encounter values it has not seen before. Such software needs to
-handle unfamiliar algorithm and digest type values without failure,
-for example by treating them as opaque numbers.
 
 
 ## Algorithm Agility

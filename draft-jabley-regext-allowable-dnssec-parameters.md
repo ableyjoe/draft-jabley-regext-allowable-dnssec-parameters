@@ -115,15 +115,15 @@ to an IANA registry, the phrase "IANA registry" is used.
 # DNSSEC Parameters in EPP
 
 {{!RFC5910 section 4.1}} defines two child elements of the
-<secDNS:dsData> element that relate to the signing algorithm:
+&lt;secDNS:dsData> element that relate to the signing algorithm:
 
-* <secDNS:alg> contains an algorithm value as described in
+* &lt;secDNS:alg> contains an algorithm value as described in
 {{!RFC4034 section 5.1.2}}
-* <secDNS:digestType> contains a digest type value as described in
+* &lt;secDNS:digestType> contains a digest type value as described in
 {{!RFC4034 section 5.1.3}}
 
-Requirements levels corresponding to the values of the <secDNS:alg>
-and <secDNS:digestType> are managed according to {{!RFC9904}} and
+Requirements levels corresponding to the values of the &lt;secDNS:alg>
+and &lt;secDNS:digestType> are managed according to {{!RFC9904}} and
 current recommendations can be found in the corresponding IANA
 registries {{DNSKEY-IANA}} and {{DS-IANA}}. Of particular relevance
 to this document are the columns in both registries labelled "Use
@@ -132,15 +132,15 @@ for DNSSEC Signing" and "Implement for DNSSEC Signing".
 
 # Recommendations for Registries and Registrars
 
-Registries and Registrars MAY allow any values for the <secDNS:alg>
-and <secDNS:digestType> parameters. In other words, registries and
+Registries and registrars MAY allow any values for the &lt;secDNS:alg>
+and &lt;secDNS:digestType> parameters. In other words, registries and
 registrars MAY accept any values for these parameters that are
 syntactically valid, regardless of the semantic meaning of those
 parameters. This approach delegates responsibility for the choice
 of values to registrants.
 
-Registries and Registrars MAY constrain the values for the
-<secDNS:alg> and <secDNS:digestType> parameters using a denylist
+Alternatively, registries and registrars MAY constrain the values for the
+&lt;secDNS:alg> and &lt;secDNS:digestType> parameters using a denylist
 which allows all values by default, but denies values that
 are marked "MUST NOT Implement for DNSSEC Signing" {{IANA-DNSKEY}} or
 "MUST NOT Implement for DNSSEC Delegation" {{IANA-DS}}. Such

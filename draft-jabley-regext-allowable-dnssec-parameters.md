@@ -312,14 +312,14 @@ data that validators still accept. Publishing DS data that uses a
 weak algorithm or digest type alongside DS data that uses a strong
 one does not preserve the strength of the stronger combination.
 
-The values denied in {{deny}} either cannot be used in DS records or
-are no longer expected to be validated, so they add no assurance.
+The values denied in {{deny}} either cannot be used in DS records
+or are no longer expected to be validated, so they add no assurance.
 Values that are deprecated for signing or delegation but are still
-validated represent a greater risk. This document does not
-recommend rejecting them, since doing so would interfere with
-registrants who have not yet completed an algorithm rollover. The
-risk of using a weak algorithm or digest type falls mainly on the
-zone concerned and the zones beneath it.
+validated represent a greater risk. This document does not recommend
+rejecting them, since doing so would interfere with DNS operators
+and registrants who have not yet completed an algorithm rollover.
+The risk of using a weak algorithm or digest type falls mainly on
+the zone concerned and the zones beneath it.
 
 
 ## Unauthorised Changes

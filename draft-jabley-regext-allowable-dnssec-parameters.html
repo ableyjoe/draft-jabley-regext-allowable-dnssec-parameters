@@ -1395,43 +1395,21 @@ report the registry's rejection to its customer.<a href="#section-4.1-3" class="
         <h3 id="name-values-to-deny">
 <a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-values-to-deny" class="section-name selfRef">Values to Deny</a>
         </h3>
-<p id="section-4.2-1">The values to be denied are derived from the current contents of
-<span>[<a href="#DNSKEY-IANA" class="cite xref">DNSKEY-IANA</a>]</span> and <span>[<a href="#DS-IANA" class="cite xref">DS-IANA</a>]</span>, not from a fixed snapshot of those
-IANA registries.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
-<p id="section-4.2-2">The values excluded below are unassigned, cannot appear in DS
-records, or are no longer expected to be validated. DS data containing
-them provides no security benefit, and accepting them could lead a
-registrant or DNS operator to believe that a zone is protected when
-it is not. Rejecting such values also catches errors in submitted
-data.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
-<p id="section-4.2-3">Registries and registrars <span class="bcp14">SHOULD</span> reject a <code>&lt;secDNS:alg&gt;</code> value
-unless both of the following conditions are met:<a href="#section-4.2-3" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-4.2-4.1">
-            <p id="section-4.2-4.1.1">the "Zone Signing" column for the value in <span>[<a href="#DNSKEY-IANA" class="cite xref">DNSKEY-IANA</a>]</span> is
-"Y"; and<a href="#section-4.2-4.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-4.2-4.2">
-            <p id="section-4.2-4.2.1">the "Use for DNSSEC Validation" column for the value is not
-"<span class="bcp14">MUST NOT</span>".<a href="#section-4.2-4.2.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-4.2-5">These conditions admit the values reserved for private algorithms,
-which are marked "Y" in the "Zone Signing" column. They exclude
-values that are unassigned or reserved, and values that are not
-usable in DS records.<a href="#section-4.2-5" class="pilcrow">¶</a></p>
-<p id="section-4.2-6">Registries and registrars <span class="bcp14">SHOULD</span> reject a <code>&lt;secDNS:digestType&gt;</code>
-value unless either of the following conditions is met:<a href="#section-4.2-6" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-4.2-7.1">
-            <p id="section-4.2-7.1.1">the "Use for DNSSEC Validation" column for the value in
-<span>[<a href="#DS-IANA" class="cite xref">DS-IANA</a>]</span> contains a requirement level other than "<span class="bcp14">MUST NOT</span>";
-or<a href="#section-4.2-7.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-4.2-7.2">
-            <p id="section-4.2-7.2.1">the value is reserved for private use.<a href="#section-4.2-7.2.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
+<p id="section-4.2-1">Registries and registrars <span class="bcp14">SHOULD</span> reject a <code>&lt;secDNS:alg&gt;</code> value unless
+its "Zone Signing" column in <span>[<a href="#DNSKEY-IANA" class="cite xref">DNSKEY-IANA</a>]</span> is "Y" and its "Use for
+DNSSEC Validation" column is not "<span class="bcp14">MUST NOT</span>". This admits the values
+reserved for private algorithms.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2-2">Registries and registrars <span class="bcp14">SHOULD</span> reject a <code>&lt;secDNS:digestType&gt;</code> value
+unless its "Use for DNSSEC Validation" column in <span>[<a href="#DS-IANA" class="cite xref">DS-IANA</a>]</span> contains
+a requirement level other than "<span class="bcp14">MUST NOT</span>", or the value is reserved
+for private use.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
+<p id="section-4.2-3">These rules exclude values that are unassigned, cannot appear in DS
+records, or are no longer expected to be validated. DS data
+containing such values provides no security benefit and could
+suggest that a zone is protected when it is not, and rejecting them
+also catches errors in submitted data. The rules apply to the current
+contents of the IANA registries, which are expected to change over
+time, not to a fixed snapshot of them.<a href="#section-4.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="existing">
@@ -1532,14 +1510,14 @@ therefore limited by the weakest algorithm and digest type in its DS
 data that validators still accept. Publishing DS data that uses a
 weak algorithm or digest type alongside DS data that uses a strong
 one does not preserve the strength of the stronger combination.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
-<p id="section-6.2-2">The values denied in <a href="#deny" class="auto internal xref">Section 4.2</a> either cannot be used in DS records or
-are no longer expected to be validated, so they add no assurance.
+<p id="section-6.2-2">The values denied in <a href="#deny" class="auto internal xref">Section 4.2</a> either cannot be used in DS records
+or are no longer expected to be validated, so they add no assurance.
 Values that are deprecated for signing or delegation but are still
-validated represent a greater risk. This document does not
-recommend rejecting them, since doing so would interfere with
-registrants who have not yet completed an algorithm rollover. The
-risk of using a weak algorithm or digest type falls mainly on the
-zone concerned and the zones beneath it.<a href="#section-6.2-2" class="pilcrow">¶</a></p>
+validated represent a greater risk. This document does not recommend
+rejecting them, since doing so would interfere with DNS operators
+and registrants who have not yet completed an algorithm rollover.
+The risk of using a weak algorithm or digest type falls mainly on
+the zone concerned and the zones beneath it.<a href="#section-6.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="unauthorised-changes">

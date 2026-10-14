@@ -70,14 +70,14 @@ signed zone must be submitted to a registry via a registrar in order
 for a secure delegation to be published. If a registrant changes
 the algorithm used, new parameters must be submitted.
 
-Both EPP and DNSSEC are extensible; in particular, they both support
-a range of cryptographic algorithms. This is important because
-guidance on the suitability of particular algorithms changes over
-time. For example, algorithms that were once considered good choices
-are weakened through advances in cryptanalysis; new algorithms have
-been developed in order to provide defence against threats of
-cryptanalysis by quantum computers. New algorithms that are
-specified for use with DNSSEC are assigned new codepoints.
+Both EPP and DNSSEC are extensible; in particular, they both
+accommodate the use of new cryptographic algorithms. This is important
+because guidance on the suitability of particular algorithms changes
+over time. For example, algorithms that were once considered good
+choices are weakened through advances in cryptanalysis; new algorithms
+have been developed in order to provide defence against threats of
+cryptanalysis by quantum computers. New algorithms that are specified
+for use with DNSSEC are assigned new codepoints.
 
 For a registrant to be able to follow evolving guidance about the
 choice of signing algorithm, it must be possible for the codepoints

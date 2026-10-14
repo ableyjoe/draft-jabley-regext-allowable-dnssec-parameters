@@ -199,37 +199,23 @@ report the registry's rejection to its customer.
 
 ## Values to Deny {#deny}
 
-The values to be denied are derived from the current contents of
-{{DNSKEY-IANA}} and {{DS-IANA}}, not from a fixed snapshot of those
-IANA registries.
+Registries and registrars SHOULD reject a `<secDNS:alg>` value unless
+its "Zone Signing" column in {{DNSKEY-IANA}} is "Y" and its "Use for
+DNSSEC Validation" column is not "MUST NOT". This admits the values
+reserved for private algorithms.
 
-The values excluded below are unassigned, cannot appear in DS
-records, or are no longer expected to be validated. DS data containing
-them provides no security benefit, and accepting them could lead a
-registrant or DNS operator to believe that a zone is protected when
-it is not. Rejecting such values also catches errors in submitted
-data.
+Registries and registrars SHOULD reject a `<secDNS:digestType>` value
+unless its "Use for DNSSEC Validation" column in {{DS-IANA}} contains
+a requirement level other than "MUST NOT", or the value is reserved
+for private use.
 
-Registries and registrars SHOULD reject a `<secDNS:alg>` value
-unless both of the following conditions are met:
-
-* the "Zone Signing" column for the value in {{DNSKEY-IANA}} is
-  "Y"; and
-* the "Use for DNSSEC Validation" column for the value is not
-  "MUST NOT".
-
-These conditions admit the values reserved for private algorithms,
-which are marked "Y" in the "Zone Signing" column. They exclude
-values that are unassigned or reserved, and values that are not
-usable in DS records.
-
-Registries and registrars SHOULD reject a `<secDNS:digestType>`
-value unless either of the following conditions is met:
-
-* the "Use for DNSSEC Validation" column for the value in
-  {{DS-IANA}} contains a requirement level other than "MUST NOT";
-  or
-* the value is reserved for private use.
+These rules exclude values that are unassigned, cannot appear in DS
+records, or are no longer expected to be validated. DS data
+containing such values provides no security benefit and could
+suggest that a zone is protected when it is not, and rejecting them
+also catches errors in submitted data. The rules apply to the current
+contents of the IANA registries, which are expected to change over
+time, not to a fixed snapshot of them.
 
 
 ## Existing DS Data {#existing}

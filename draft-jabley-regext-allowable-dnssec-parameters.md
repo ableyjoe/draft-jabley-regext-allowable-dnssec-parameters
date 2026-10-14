@@ -198,6 +198,13 @@ The values to be denied are derived from the current contents of
 {{DNSKEY-IANA}} and {{DS-IANA}}, not from a fixed snapshot of those
 IANA registries.
 
+The values excluded below are unassigned, cannot appear in DS
+records, or are no longer expected to be validated. DS data containing
+them provides no security benefit, and accepting them could lead a
+registrant or DNS operator to believe that a zone is protected when
+it is not. Rejecting such values also catches errors in submitted
+data.
+
 Registries and registrars SHOULD reject a `<secDNS:alg>` value
 unless both of the following conditions are met:
 

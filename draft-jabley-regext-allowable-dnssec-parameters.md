@@ -39,7 +39,7 @@ normative:
     title: Digest Algorithms
     author:
       org: IANA
-    target: http://www.iana.org/assignments/ds-rr-types
+    target: https://www.iana.org/assignments/ds-rr-types
 
 informative:
 

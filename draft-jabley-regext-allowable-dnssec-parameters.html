@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta content="Common,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
-<title>Liberal Acceptance of DNSSEC Parameters in EPP</title>
+<title>Acceptance of DNSSEC Parameters in EPP</title>
 <meta content="Joe Abley" name="author">
 <meta content="
        The Extensible Provisioning Protocol (EPP) is used to maintain
@@ -1049,7 +1049,7 @@ svg {
 <table class="ears">
 <thead><tr>
 <td class="left">Internet-Draft</td>
-<td class="center">Liberal Acceptance of DNSSEC Parameters </td>
+<td class="center">Acceptance of DNSSEC Parameters in EPP</td>
 <td class="right">October 2026</td>
 </tr></thead>
 <tfoot><tr>
@@ -1082,7 +1082,7 @@ svg {
 </dd>
 </dl>
 </div>
-<h1 id="title">Liberal Acceptance of DNSSEC Parameters in EPP</h1>
+<h1 id="title">Acceptance of DNSSEC Parameters in EPP</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">The Extensible Provisioning Protocol (EPP) is used to maintain
@@ -1204,14 +1204,14 @@ particular, the choice of DNSSEC algorithm by the registrant of a
 signed zone must be submitted to a registry via a registrar in order
 for a secure delegation to be published. If a registrant changes
 the algorithm used, new parameters must be submitted.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">Both EPP and DNSSEC are extensible; in particular, they both support
-a range of cryptographic algorithms. This is important because
-guidance on the suitability of particular algorithms changes over
-time. For example, algorithms that were once considered good choices
-are weakened through advances in cryptanalysis; new algorithms have
-been developed in order to provide defence against threats of
-cryptanalysis by quantum computers. New algorithms that are
-specified for use with DNSSEC are assigned new codepoints.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-3">Both EPP and DNSSEC are extensible; in particular, they both
+accommodate the use of new cryptographic algorithms. This is important
+because guidance on the suitability of particular algorithms changes
+over time. For example, algorithms that were once considered good
+choices are weakened through advances in cryptanalysis; new algorithms
+have been developed in order to provide defence against threats of
+cryptanalysis by quantum computers. New algorithms that are specified
+for use with DNSSEC are assigned new codepoints.<a href="#section-1-3" class="pilcrow">¶</a></p>
 <p id="section-1-4">For a registrant to be able to follow evolving guidance about the
 choice of signing algorithm, it must be possible for the codepoints
 assigned to new algorithms to be accepted by both registry and
@@ -1252,24 +1252,24 @@ appear in all capitals, as shown here.<a href="#section-2-3" class="pilcrow">¶<
       <h2 id="name-dnssec-parameters-in-epp">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-dnssec-parameters-in-epp" class="section-name selfRef">DNSSEC Parameters in EPP</a>
       </h2>
-<p id="section-3-1">Section 4.1 of <span>[<a href="#RFC5910" class="cite xref">RFC5910</a>]</span> defines two child elements of the
+<p id="section-3-1"><span><a href="https://rfc-editor.org/rfc/rfc5910#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC5910" class="cite xref">RFC5910</a>]</span> defines two child elements of the
 <code>&lt;secDNS:dsData&gt;</code> element that relate to the signing algorithm:<a href="#section-3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3-2.1">
           <p id="section-3-2.1.1"><code>&lt;secDNS:alg&gt;</code> contains an algorithm value as described in
-Section 5.1.2 of <span>[<a href="#RFC4034" class="cite xref">RFC4034</a>]</span><a href="#section-3-2.1.1" class="pilcrow">¶</a></p>
+<span><a href="https://rfc-editor.org/rfc/rfc4034#section-5.1.2" class="relref">Section 5.1.2</a> of [<a href="#RFC4034" class="cite xref">RFC4034</a>]</span><a href="#section-3-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-3-2.2">
           <p id="section-3-2.2.1"><code>&lt;secDNS:digestType&gt;</code> contains a digest type value as described in
-Section 5.1.3 of <span>[<a href="#RFC4034" class="cite xref">RFC4034</a>]</span><a href="#section-3-2.2.1" class="pilcrow">¶</a></p>
+<span><a href="https://rfc-editor.org/rfc/rfc4034#section-5.1.3" class="relref">Section 5.1.3</a> of [<a href="#RFC4034" class="cite xref">RFC4034</a>]</span><a href="#section-3-2.2.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-3-3">Requirements levels corresponding to the values of the <code>&lt;secDNS:alg&gt;</code>
 and <code>&lt;secDNS:digestType&gt;</code> are managed according to <span>[<a href="#RFC9904" class="cite xref">RFC9904</a>]</span> and
 current recommendations can be found in the corresponding IANA
 registries <span>[<a href="#DNSKEY-IANA" class="cite xref">DNSKEY-IANA</a>]</span> and <span>[<a href="#DS-IANA" class="cite xref">DS-IANA</a>]</span>. Of particular relevance
-to this document are the columns in both registries labelled "Use
-for DNSSEC Signing" and "Implement for DNSSEC Signing".<a href="#section-3-3" class="pilcrow">¶</a></p>
+to this document are the columns labelled "Implement for DNSSEC
+Signing" and "Implement for DNSSEC Delegation".<a href="#section-3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="recommendations-for-registries-and-registrars">

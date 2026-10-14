@@ -8,7 +8,7 @@ Intended status: Best Current Practice                   14 October 2026
 Expires: 17 April 2027
 
 
-             Liberal Acceptance of DNSSEC Parameters in EPP
+                 Acceptance of DNSSEC Parameters in EPP
          draft-jabley-regext-allowable-dnssec-parameters-latest
 
 Abstract
@@ -98,14 +98,15 @@ Table of Contents
    for a secure delegation to be published.  If a registrant changes the
    algorithm used, new parameters must be submitted.
 
-   Both EPP and DNSSEC are extensible; in particular, they both support
-   a range of cryptographic algorithms.  This is important because
-   guidance on the suitability of particular algorithms changes over
-   time.  For example, algorithms that were once considered good choices
-   are weakened through advances in cryptanalysis; new algorithms have
-   been developed in order to provide defence against threats of
-   cryptanalysis by quantum computers.  New algorithms that are
-   specified for use with DNSSEC are assigned new codepoints.
+   Both EPP and DNSSEC are extensible; in particular, they both
+   accommodate the use of new cryptographic algorithms.  This is
+   important because guidance on the suitability of particular
+   algorithms changes over time.  For example, algorithms that were once
+   considered good choices are weakened through advances in
+   cryptanalysis; new algorithms have been developed in order to provide
+   defence against threats of cryptanalysis by quantum computers.  New
+   algorithms that are specified for use with DNSSEC are assigned new
+   codepoints.
 
    For a registrant to be able to follow evolving guidance about the
    choice of signing algorithm, it must be possible for the codepoints
@@ -157,8 +158,8 @@ Table of Contents
    and <secDNS:digestType> are managed according to [RFC9904] and
    current recommendations can be found in the corresponding IANA
    registries [DNSKEY-IANA] and [DS-IANA].  Of particular relevance to
-   this document are the columns in both registries labelled "Use for
-   DNSSEC Signing" and "Implement for DNSSEC Signing".
+   this document are the columns labelled "Implement for DNSSEC Signing"
+   and "Implement for DNSSEC Delegation".
 
 4.  Recommendations for Registries and Registrars
 

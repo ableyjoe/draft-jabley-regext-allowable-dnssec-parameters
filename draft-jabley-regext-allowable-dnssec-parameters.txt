@@ -13,14 +13,14 @@ Expires: 17 April 2027
 
 Abstract
 
-   The Extensible Provisioning Protocol (EPP) is used to maintain DNSSEC
-   parameters associated with domain names in domain name registries.
-   Many domain name registries constrain the allowed values for these
-   parameters according to local policy; however, a local policy which
-   is too narrow or which is not updated regularly can make it difficult
-   to gain operational experience with new algorithms.  This document
-   recommends a liberal policy for registries and registrars that allows
-   new algorithms to be adopted without delay.
+   The Extensible Provisioning Protocol (EPP) is used to submit DNSSEC
+   parameters for domain names to domain name registries.  Registries
+   and registrars often restrict the values they accept, and those
+   restrictions vary from registry to registry.  The resulting
+   uncertainty makes it difficult for DNS operators to adopt new
+   algorithms.  This document recommends that registries and registrars
+   base their acceptance policies on the IANA registries for DNSSEC
+   algorithms and digest types.
 
 About This Document
 

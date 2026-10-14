@@ -78,23 +78,24 @@ Table of Contents
    1.  Introduction
    2.  Conventions and Definitions
    3.  DNSSEC Parameters in EPP
-   4.  Recommendations for Registries and Registrars
-     4.1.  Default Policy
-     4.2.  Values to Deny
-     4.3.  Existing DS Data
-     4.4.  Keeping Current
-     4.5.  Allowlists
-     4.6.  Publication
-   5.  Security Considerations
-     5.1.  Unsupported Algorithms and Digest Types
-     5.2.  Weak Algorithms and Digest Types
-     5.3.  Unauthorised Changes
-     5.4.  Robustness of Implementations
-     5.5.  Algorithm Agility
-   6.  IANA Considerations
-   7.  References
-     7.1.  Normative References
-     7.2.  Informative References
+   4.  DNSSEC Parameters in EPP
+   5.  Recommendations for Registries and Registrars
+     5.1.  Default Policy
+     5.2.  Values to Deny
+     5.3.  Existing DS Data
+     5.4.  Keeping Current
+     5.5.  Allowlists
+     5.6.  Publication
+   6.  Security Considerations
+     6.1.  Unsupported Algorithms and Digest Types
+     6.2.  Weak Algorithms and Digest Types
+     6.3.  Unauthorised Changes
+     6.4.  Robustness of Implementations
+     6.5.  Algorithm Agility
+   7.  IANA Considerations
+   8.  References
+     8.1.  Normative References
+     8.2.  Informative References
    Acknowledgments
    Author's Address
 
@@ -158,28 +159,54 @@ Table of Contents
 
 3.  DNSSEC Parameters in EPP
 
+4.  DNSSEC Parameters in EPP
+
    Section 4.1 of [RFC5910] defines two child elements of the
-   <secDNS:dsData> element that relate to the signing algorithm:
+   <secDNS:dsData> element that are relevant to this document:
 
-   *  <secDNS:alg> contains an algorithm value as described in
-      Section 5.1.2 of [RFC4034]
+   *  <secDNS:alg> contains the algorithm number of the DNSKEY
+      referenced by the DS record, as described in Section 5.1.2 of
+      [RFC4034]; and
 
-   *  <secDNS:digestType> contains a digest type value as described in
-      Section 5.1.3 of [RFC4034]
+   *  <secDNS:digestType> contains the algorithm used to construct the
+      digest, as described in Section 5.1.3 of [RFC4034].
 
-   Requirements levels corresponding to the values of the <secDNS:alg>
-   and <secDNS:digestType> are managed according to [RFC9904] and
-   current recommendations can be found in the corresponding IANA
-   registries [DNSKEY-IANA] and [DS-IANA].  Of particular relevance to
-   this document are the columns labelled "Implement for DNSSEC Signing"
-   and "Implement for DNSSEC Delegation".
+   Values for these elements are drawn from the IANA registries
+   [DNSKEY-IANA] and [DS-IANA] respectively.  Following [RFC9904], those
+   IANA registries are the canonical source of requirement levels for
+   each value, and those requirement levels are expected to change over
+   time.
 
-4.  Recommendations for Registries and Registrars
+   This document refers to the following columns in [DNSKEY-IANA]:
 
-4.1.  Default Policy
+   *  "Zone Signing", which indicates whether an algorithm may appear in
+      DNSKEY, RRSIG and DS records;
+
+   *  "Use for DNSSEC Signing", which gives the requirement level for
+      using an algorithm to sign zones; and
+
+   *  "Use for DNSSEC Validation", which gives the requirement level for
+      using an algorithm in DNSSEC validators.
+
+   This document refers to the following columns in [DS-IANA]:
+
+   *  "Use for DNSSEC Delegation", which gives the requirement level for
+      using a digest type in DS records published by authoritative
+      servers; and
+
+   *  "Use for DNSSEC Validation", which gives the requirement level for
+      using a digest type in DNSSEC validators.
+
+   The "Implement for" columns in those IANA registries describe
+   requirements for software implementations rather than for the
+   operation of a zone, and are not used by this document.
+
+5.  Recommendations for Registries and Registrars
+
+5.1.  Default Policy
 
    Registries and registrars SHOULD accept any value of the <secDNS:alg>
-   and <secDNS:digestType> elements that is not excluded by Section 4.2.
+   and <secDNS:digestType> elements that is not excluded by Section 5.2.
    Registries and registrars SHOULD NOT constrain these values using a
    static allowlist.
 
@@ -193,7 +220,7 @@ Table of Contents
    A registrar is not expected to accept a value that the registry for
    the corresponding domain name would reject.
 
-4.2.  Values to Deny
+5.2.  Values to Deny
 
    The values to be denied are derived from the current contents of
    [DNSKEY-IANA] and [DS-IANA], not from a fixed snapshot of those IANA
@@ -229,55 +256,55 @@ Table of Contents
    this additional restriction should consider the impact on registrants
    who have not yet completed an algorithm rollover.
 
-4.3.  Existing DS Data
+5.3.  Existing DS Data
 
    The contents of the IANA registries change over time, so DS data that
-   was accepted in the past may later include values that Section 4.2
+   was accepted in the past may later include values that Section 5.2
    would exclude.
 
    Registries and registrars MUST NOT reject a request to remove DS data
    on the grounds that it contains values that would be denied under
-   Section 4.2.
+   Section 5.2.
 
    Registries and registrars SHOULD NOT reject an otherwise acceptable
    request on the grounds that DS data already associated with the
-   domain name contains values that would be denied under Section 4.2.
+   domain name contains values that would be denied under Section 5.2.
 
-4.4.  Keeping Current
+5.4.  Keeping Current
 
    Registries and registrars SHOULD reflect changes to [DNSKEY-IANA] and
    [DS-IANA] in their acceptance policy within 30 days of those changes
    being published.
 
-4.5.  Allowlists
+5.5.  Allowlists
 
    A registry or registrar that constrains <secDNS:alg> or
    <secDNS:digestType> values using an allowlist, contrary to
-   Section 4.1, SHOULD:
+   Section 5.1, SHOULD:
 
    *  include, at a minimum, every value marked "RECOMMENDED" in the
       "Use for DNSSEC Signing" column of [DNSKEY-IANA] or the "Use for
       DNSSEC Delegation" column of [DS-IANA];
 
    *  review new assignments in those IANA registries within the period
-      specified in Section 4.4; and
+      specified in Section 5.4; and
 
-   *  publish the allowlist as described in Section 4.6.
+   *  publish the allowlist as described in Section 5.6.
 
-4.6.  Publication
+5.6.  Publication
 
    Registries and registrars SHOULD publish the <secDNS:alg> and
    <secDNS:digestType> values they accept, including any additional
-   restrictions applied under Section 4.2, at a stable and publicly
+   restrictions applied under Section 5.2, at a stable and publicly
    accessible location so that registrants and DNS operators can make
    informed choices.  For registries that publish a DNSSEC Practice
    Statement [RFC6841], that document is a suitable location.
 
-5.  Security Considerations
+6.  Security Considerations
 
-5.1.  Unsupported Algorithms and Digest Types
+6.1.  Unsupported Algorithms and Digest Types
 
-   The recommendations in Section 4 cause registries and registrars to
+   The recommendations in Section 5 cause registries and registrars to
    accept algorithm and digest type values that they, and some
    validators, may not implement.
 
@@ -298,7 +325,7 @@ Table of Contents
    (253 and 254) in [DNSKEY-IANA], and different parties may interpret
    them differently.
 
-5.2.  Weak Algorithms and Digest Types
+6.2.  Weak Algorithms and Digest Types
 
    A validator may accept any valid chain of trust from the parent to
    the child, regardless of what other algorithms are present
@@ -308,15 +335,15 @@ Table of Contents
    weak algorithm or digest type alongside DS data that uses a strong
    one does not preserve the strength of the stronger combination.
 
-   The values denied in Section 4.2 are those that validators are no
+   The values denied in Section 5.2 are those that validators are no
    longer expected to validate, so they add no assurance.  Values that
    are deprecated for signing or delegation but are still validated
-   represent a greater risk.  Section 4.2 allows registries and
+   represent a greater risk.  Section 5.2 allows registries and
    registrars to refuse to add DS data that uses such values.  Whether
    or not they do so, the risk of using a weak algorithm or digest type
    falls mainly on the zone concerned and the zones beneath it.
 
-5.3.  Unauthorised Changes
+6.3.  Unauthorised Changes
 
    An attacker who can submit DS data for a domain name, for example by
    compromising a registrant's account at a registrar, could submit DS
@@ -325,7 +352,7 @@ Table of Contents
    with that access could already remove the DS data or change the
    delegation itself.
 
-5.4.  Robustness of Implementations
+6.4.  Robustness of Implementations
 
    Software that processes DS data, including registry and registrar
    systems and systems that consume data published by them, may
@@ -333,10 +360,10 @@ Table of Contents
    handle unfamiliar algorithm and digest type values without failure,
    for example by treating them as opaque numbers.
 
-5.5.  Algorithm Agility
+6.5.  Algorithm Agility
 
    Policies that are too restrictive, or that are not kept current
-   (Section 4.4), can prevent registrants from moving away from
+   (Section 5.4), can prevent registrants from moving away from
    algorithms that are becoming weaker or from adopting new ones, such
    as those designed to resist cryptanalysis by quantum computers.  This
    prolongs exposure to the weaknesses that algorithm agility is meant
@@ -344,13 +371,13 @@ Table of Contents
    remove that obstacle while still allowing registries and registrars
    to exclude values that offer no security benefit.
 
-6.  IANA Considerations
+7.  IANA Considerations
 
    This document has no IANA actions.
 
-7.  References
+8.  References
 
-7.1.  Normative References
+8.1.  Normative References
 
    [DNSKEY-IANA]
               IANA, "DNS Security Algorithm Numbers", n.d.,
@@ -406,7 +433,7 @@ Table of Contents
               DOI 10.17487/RFC9904, November 2025,
               <https://www.rfc-editor.org/rfc/rfc9904>.
 
-7.2.  Informative References
+8.2.  Informative References
 
    [RFC6841]  Ljunggren, F., Eklund Lowinder, AM., and T. Okubo, "A
               Framework for DNSSEC Policies and DNSSEC Practice

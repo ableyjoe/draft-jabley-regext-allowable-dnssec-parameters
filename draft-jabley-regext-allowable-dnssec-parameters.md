@@ -51,9 +51,8 @@ registries. Many domain name registries constrain the allowed values
 for these parameters according to local policy; however, a local
 policy which is too narrow or which is not updated regularly can
 make it difficult to gain operational experience with new algorithms.
-This document provides recommendations to domain name registries and
-registrars and recommends a liberal policy that allows new
-algorithms to be adopted.
+This document recommends a liberal policy for registries and
+registrars that allows new algorithms to be adopted without delay.
 
 --- middle
 
@@ -132,31 +131,181 @@ Signing" and "Implement for DNSSEC Delegation".
 
 # Recommendations for Registries and Registrars
 
-Registries and registrars MAY allow any values for the `<secDNS:alg>`
-and `<secDNS:digestType>` parameters. In other words, registries and
-registrars MAY accept any values for these parameters that are
-syntactically valid, regardless of the semantic meaning of those
-parameters. This approach delegates responsibility for the choice
-of values to registrants.
+# Recommendations for Registries and Registrars {#recommendations}
 
-Alternatively, registries and registrars MAY constrain the values for the
-`<secDNS:alg>` and `<secDNS:digestType>` parameters using a denylist
-which allows all values by default, but denies values that
-are marked "MUST NOT Implement for DNSSEC Signing" {{DNSKEY-IANA}} or
-"MUST NOT Implement for DNSSEC Delegation" {{DS-IANA}}. Such
-a denylist SHOULD be updated periodically in order to reflect changes
-that are published in those registries.
+## Default Policy {#default}
 
-Registries and Registrars SHOULD publish details of what values
-they accept to allow registrants to make informed choices.
+Registries and registrars SHOULD accept any value of the
+`<secDNS:alg>` and `<secDNS:digestType>` elements that is not
+excluded by {{deny}}. Registries and registrars SHOULD NOT constrain
+these values using a static allowlist.
+
+Registries and registrars SHOULD NOT reject a value solely because
+they do not themselves implement the corresponding algorithm. A
+validator that does not support the algorithm or digest type
+specified in a DS record disregards that record
+({{Section 5.2 of !RFC4035}}), so accepting such values does not
+introduce a risk of resolution failure.
+
+A registrar is not expected to accept a value that the registry
+for the corresponding domain name would reject.
+
+
+## Values to Deny {#deny}
+
+The values to be denied are derived from the current contents of
+{{DNSKEY-IANA}} and {{DS-IANA}}, not from a fixed snapshot of those
+IANA registries.
+
+Registries and registrars SHOULD reject a `<secDNS:alg>` value if
+any of the following apply:
+
+* the value is not assigned in {{DNSKEY-IANA}}, other than the
+  values reserved for private algorithms (253 and 254);
+* the "Zone Signing" column for the value is "N"; or
+* the "Use for DNSSEC Validation" column for the value is
+  "MUST NOT".
+
+Registries and registrars SHOULD reject a `<secDNS:digestType>`
+value if either of the following apply:
+
+* the value is not assigned in {{DS-IANA}}, other than the values
+  reserved for private use (253 and 254); or
+* the "Use for DNSSEC Validation" column for the value is
+  "MUST NOT".
+
+In addition, registries and registrars MAY reject requests to add
+DS data whose `<secDNS:alg>` value is marked "MUST NOT" in the
+"Use for DNSSEC Signing" column of {{DNSKEY-IANA}}, or whose
+`<secDNS:digestType>` value is marked "MUST NOT" in the "Use for
+DNSSEC Delegation" column of {{DS-IANA}}. At the time of writing
+this includes algorithms 5 and 7 and digest type 1
+({{?RFC9905}}), which remain in use and are still recommended for
+validation. A registry or registrar that applies this additional
+restriction should consider the impact on registrants who have not
+yet completed an algorithm rollover.
+
+
+## Existing DS Data {#existing}
+
+The contents of the IANA registries change over time, so DS data
+that was accepted in the past may later include values that
+{{deny}} would exclude.
+
+Registries and registrars MUST NOT reject a request to remove DS
+data on the grounds that it contains values that would be denied
+under {{deny}}.
+
+Registries and registrars SHOULD NOT reject an otherwise acceptable
+request on the grounds that DS data already associated with the
+domain name contains values that would be denied under {{deny}}.
+
+
+## Keeping Current {#current}
+
+Registries and registrars SHOULD reflect changes to {{DNSKEY-IANA}}
+and {{DS-IANA}} in their acceptance policy within 30 days of those
+changes being published.
+
+
+## Allowlists {#allowlists}
+
+A registry or registrar that constrains `<secDNS:alg>` or
+`<secDNS:digestType>` values using an allowlist, contrary to
+{{default}}, SHOULD:
+
+* include, at a minimum, every value marked "RECOMMENDED" in the
+  "Use for DNSSEC Signing" column of {{DNSKEY-IANA}} or the "Use for
+  DNSSEC Delegation" column of {{DS-IANA}};
+* review new assignments in those IANA registries within the period
+  specified in {{current}}; and
+* publish the allowlist as described in {{publication}}.
+
+
+## Publication {#publication}
+
+Registries and registrars SHOULD publish the `<secDNS:alg>` and
+`<secDNS:digestType>` values they accept, including any additional
+restrictions applied under {{deny}}, at a stable and publicly
+accessible location so that registrants and DNS operators can make
+informed choices. For registries that publish a DNSSEC Practice
+Statement {{RFC6841}}, that document is a suitable location.
 
 
 # Security Considerations {#security}
 
-This document aims to make it easier for new cryptographic
-algorithms to be used in DNSSEC, while accommodating the policy
-needs of registries and registrars to exercise some measure
-of control over algorithm choices.
+## Unsupported Algorithms and Digest Types
+
+The recommendations in {{recommendations}} cause registries and
+registrars to accept algorithm and digest type values that they, and
+some validators, may not implement.
+
+A validator that does not support the algorithm specified in a DS
+record, or that does not support its digest type, disregards that
+record ({{Section 5.2 of RFC4035}}, {{Section 5.2 of !RFC6840}}). If
+no remaining DS record for a delegation uses a supported algorithm
+and digest type, the validator treats the child zone as unsigned.
+Accepting such values therefore cannot cause a validator to treat a
+correctly signed zone as bogus. The worst outcome is that the zone
+is unsigned from the point of view of validators that lack support.
+This is no worse than if the DS data had been rejected.
+
+Registrants and DNS operators who publish DS data using only
+algorithms that are not yet widely supported should understand that
+their zones will not be validated by validators without that
+support. Validators also generally do not support the private
+algorithm values (253 and 254) in {{DNSKEY-IANA}}, and different
+parties may interpret them differently.
+
+
+## Weak Algorithms and Digest Types
+
+A validator may accept any valid chain of trust from the parent to
+the child, regardless of what other algorithms are present
+({{Section 5.11 of RFC6840}}). The security of a signed delegation is
+therefore limited by the weakest algorithm and digest type in its DS
+data that validators still accept. Publishing DS data that uses a
+weak algorithm or digest type alongside DS data that uses a strong
+one does not preserve the strength of the stronger combination.
+
+The values denied in {{deny}} are those that validators are no longer
+expected to validate, so they add no assurance. Values that are
+deprecated for signing or delegation but are still validated
+represent a greater risk. {{deny}} allows registries and registrars
+to refuse to add DS data that uses such values. Whether or not they
+do so, the risk of using a weak algorithm or digest type falls
+mainly on the zone concerned and the zones beneath it.
+
+
+## Unauthorised Changes
+
+An attacker who can submit DS data for a domain name, for example by
+compromising a registrant's account at a registrar, could submit DS
+data containing arbitrary values. Accepting a wider range of values
+does not materially change the impact of such an attack. An attacker
+with that access could already remove the DS data or change the
+delegation itself.
+
+
+## Robustness of Implementations
+
+Software that processes DS data, including registry and registrar
+systems and systems that consume data published by them, may
+encounter values it has not seen before. Such software needs to
+handle unfamiliar algorithm and digest type values without failure,
+for example by treating them as opaque numbers.
+
+
+## Algorithm Agility
+
+Policies that are too restrictive, or that are not kept current
+({{current}}), can prevent registrants from moving away from
+algorithms that are becoming weaker or from adopting new ones, such
+as those designed to resist cryptanalysis by quantum computers. This
+prolongs exposure to the weaknesses that algorithm agility is meant
+to address. The recommendations in this document are intended to
+remove that obstacle while still allowing registries and registrars
+to exclude values that offer no security benefit.
 
 
 # IANA Considerations {#iana}

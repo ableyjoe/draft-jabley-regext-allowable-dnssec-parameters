@@ -9,18 +9,18 @@ number:
 date:
 consensus: true
 v: 3
-area: AREA
-workgroup: WG Working Group
+area: "Operations and Management"
+workgroup: "Registration Protocols Extensions"
 keyword:
  - dnssec
  - epp
 venue:
-  group: WG
-  type: Working Group
-  mail: WG@example.com
-  arch: https://example.com/WG
-  github: USER/REPO
-  latest: https://example.com/LATEST
+  group: "Registration Protocols Extensions"
+  type: "Working Group"
+  mail: "regext@ietf.org"
+  arch: "https://mailarchive.ietf.org/arch/browse/regext/"
+  github: "ableyjoe/draft-jabley-regext-allowable-dnssec-parameters"
+  latest: "https://ableyjoe.github.io/draft-jabley-regext-allowable-dnssec-parameters/draft-jabley-regext-allowable-dnssec-parameters.html"
 
 author:
  -

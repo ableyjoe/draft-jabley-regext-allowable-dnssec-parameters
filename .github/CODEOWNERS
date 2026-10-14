@@ -1,0 +1,3 @@
+# Automatically generated CODEOWNERS
+# Regenerate with `make update-codeowners`
+draft-jabley-regext-allowable-dnssec-parameters.md jabley@cloudflare.com

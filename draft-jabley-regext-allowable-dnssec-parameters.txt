@@ -158,10 +158,9 @@ Table of Contents
    This document assumes familiarity with DNS and domain name
    registration terminology as defined in [RFC9499].
 
-   The word "registry" is used in this document in two ways: to refer to
-   domain registries, as described in [RFC9499] and also to refer to
-   IANA registries in the IETF sense.  When the intention is to refer to
-   an IANA registry, the phrase "IANA registry" is used.
+   In this document, "registry" refers to a domain name registry as
+   described in [RFC9499].  Registries maintained by IANA are always
+   referred to as "IANA registries".
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and

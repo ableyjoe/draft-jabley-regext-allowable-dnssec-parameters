@@ -126,8 +126,8 @@ Requirements levels corresponding to the values of the `<secDNS:alg>`
 and `<secDNS:digestType>` are managed according to {{!RFC9904}} and
 current recommendations can be found in the corresponding IANA
 registries {{DNSKEY-IANA}} and {{DS-IANA}}. Of particular relevance
-to this document are the columns in both registries labelled "Use
-for DNSSEC Signing" and "Implement for DNSSEC Signing".
+to this document are the columns labelled "Implement for DNSSEC
+Signing" and "Implement for DNSSEC Delegation".
 
 
 # Recommendations for Registries and Registrars

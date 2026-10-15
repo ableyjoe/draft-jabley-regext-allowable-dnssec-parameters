@@ -284,9 +284,8 @@ This is no worse than if the DS data had been rejected.
 
 Registrants and DNS operators who submit DS data using only algorithms
 that are not yet widely supported should understand that their zones
-are unlikely to be successfully validated.  Validators also generally
-do not support the private algorithm values (253 and 254) in
-{{DNSKEY-IANA}}, and different parties may interpret them differently.
+are unlikely to be successfully validated. This also applies to
+private algorithm values (253 and 254) in {{DNSKEY-IANA}}.
 
 
 ## Weak Algorithms and Digest Types
@@ -341,5 +340,6 @@ This document has no IANA actions.
 {:numbered="false"}
 
 Bas Westerbaan provided post-quantum energy. Scott Hollenbeck and
-Gavin Brown provided welcome encouragement.
+Gavin Brown provided welcome encouragement. Mark Andrews provided
+suggestions which made the text clearer.
 

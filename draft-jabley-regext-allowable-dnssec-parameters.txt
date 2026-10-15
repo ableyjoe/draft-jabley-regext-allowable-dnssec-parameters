@@ -4,8 +4,8 @@
 
 Registration Protocols Extensions                               J. Abley
 Internet-Draft                                                Cloudflare
-Intended status: Best Current Practice                   14 October 2026
-Expires: 17 April 2027
+Intended status: Best Current Practice                   15 October 2026
+Expires: 18 April 2027
 
 
                  Acceptance of DNSSEC Parameters in EPP
@@ -57,7 +57,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 April 2027.
+   This Internet-Draft will expire on 18 April 2027.
 
 Copyright Notice
 
@@ -323,10 +323,8 @@ Table of Contents
 
    Registrants and DNS operators who submit DS data using only
    algorithms that are not yet widely supported should understand that
-   their zones are unlikely to be successfully validated.  Validators
-   also generally do not support the private algorithm values (253 and
-   254) in [DNSKEY-IANA], and different parties may interpret them
-   differently.
+   their zones are unlikely to be successfully validated.  This also
+   applies to private algorithm values (253 and 254) in [DNSKEY-IANA].
 
 6.2.  Weak Algorithms and Digest Types
 
@@ -438,7 +436,8 @@ Table of Contents
 Acknowledgments
 
    Bas Westerbaan provided post-quantum energy.  Scott Hollenbeck and
-   Gavin Brown provided welcome encouragement.
+   Gavin Brown provided welcome encouragement.  Mark Andrews provided
+   suggestions which made the text clearer.
 
 Author's Address
 

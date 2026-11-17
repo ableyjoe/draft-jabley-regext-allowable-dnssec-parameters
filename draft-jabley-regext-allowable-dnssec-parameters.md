@@ -79,7 +79,7 @@ possible if registries and registrars accept those codepoints.
 Registries and registrars often constrain the values they accept
 using allowlists. What those allowlists contain, whether they are
 published and how they are maintained varies, and this inconsistency
-makes new algorithms difficult to deploy. [CITATIONS NEEDED]
+makes new algorithms difficult to deploy.
 
 The inconsistency is felt most by DNS operators. The algorithm used
 for a zone is generally chosen by the DNS operator that signs it,

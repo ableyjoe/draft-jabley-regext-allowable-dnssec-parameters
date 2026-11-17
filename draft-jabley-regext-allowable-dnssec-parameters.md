@@ -240,6 +240,12 @@ Registries and registrars SHOULD reflect changes to {{DNSKEY-IANA}}
 and {{DS-IANA}} in their acceptance policy within 30 days of those
 changes being published.
 
+An example script which generates an allowlist directly from the
+IANA registries can be found in {{generator}}. An operator could
+use automatically-generated allowlists to react to changes and
+trigger internal processes to update configuration deployed in
+production.
+
 
 ## Publication {#publication}
 
@@ -262,6 +268,9 @@ failure, for example by treating them as opaque numbers. A failure in
 a registry's own systems caused by an unfamiliar value could affect
 many delegations, not only the one concerned, and is a more
 significant risk than any effect on validation.
+
+An example script which generates the allowlists described in
+
 
 
 # Security Considerations {#security}
@@ -343,3 +352,88 @@ Bas Westerbaan provided post-quantum energy. Scott Hollenbeck and
 Gavin Brown provided welcome encouragement. Mark Andrews provided
 suggestions which made the text clearer.
 
+
+# Example Allowlist Generator {#generator}
+
+The following short script, written in Python 3 using only its
+standard library, retrieves {{DNSKEY-IANA}} and {{DS-IANA}} in XML
+form and prints allowlists for `<secDNS:alg>` and `<secDNS:digestType>`
+constructed according to {{deny}}, together with the date on which
+each IANA registry was last updated. It illustrates how a registry
+or registrar might generate an allowlist automatically and compare
+it with the one it has deployed, for example in order to follow
+{{current}}.
+
+~~~ python
+#!/usr/bin/env python3
+#
+# Print allowlists for the EPP <secDNS:alg> and <secDNS:digestType>
+# elements, derived from the current contents of the IANA
+# registries as described in Section 4.2 of
+# draft-jabley-regext-allowable-dnssec-parameters.
+
+import json
+import urllib.request
+import xml.etree.ElementTree as ET
+
+IANA = "https://www.iana.org/assignments/"
+NS = {"i": "http://www.iana.org/assignments"}
+
+
+def col(record, tag):
+    return record.findtext("i:" + tag, "", NS).strip()
+
+
+def alg_ok(r):
+    # "Zone Signing" is "Y" and "Use for DNSSEC Validation" is
+    # not "MUST NOT"; this admits the private algorithms
+    return col(r, "signing") == "Y" and \
+        col(r, "usevalid") != "MUST NOT"
+
+
+def digest_ok(r):
+    # "Use for DNSSEC Validation" contains a requirement level
+    # other than "MUST NOT", or the value is for private use
+    return col(r, "usevalid") not in ("", "MUST NOT") or \
+        "private use" in col(r, "description").lower()
+
+
+def allowlist(name, number, ok):
+    url = IANA + name + "/" + name + ".xml"
+    with urllib.request.urlopen(url) as f:
+        root = ET.parse(f).getroot()
+    # the table we want is the first sub-registry, "<name>-1"
+    path = "i:registry[@id='" + name + "-1']/i:record"
+    allow = []
+    for r in root.iterfind(path, NS):
+        if ok(r):
+            lo, _, hi = col(r, number).partition("-")
+            allow += range(int(lo), int(hi or lo) + 1)
+    return {"updated": root.findtext("i:updated", "", NS),
+            "allow": sorted(allow)}
+
+
+print(json.dumps({
+    "secDNS:alg":
+        allowlist("dns-sec-alg-numbers", "number", alg_ok),
+    "secDNS:digestType":
+        allowlist("ds-rr-types", "value", digest_ok),
+}, indent=2))
+~~~
+{: sourcecode-markers="true" sourcecode-name="secdns-allowlist.py"}
+
+At the time of writing, the program produced the following output,
+reformatted here for brevity:
+
+~~~ json
+{
+  "secDNS:alg": {
+    "updated": "2026-08-10",
+    "allow": [5, 7, 8, 10, 13, 14, 15, 16, 17, 18, 23, 253, 254]
+  },
+  "secDNS:digestType": {
+    "updated": "2026-01-13",
+    "allow": [1, 2, 4, 5, 6, 253, 254]
+  }
+}
+~~~

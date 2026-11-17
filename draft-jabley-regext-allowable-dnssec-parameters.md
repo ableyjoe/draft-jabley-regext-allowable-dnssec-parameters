@@ -269,9 +269,6 @@ a registry's own systems caused by an unfamiliar value could affect
 many delegations, not only the one concerned, and is a more
 significant risk than any effect on validation.
 
-An example script which generates the allowlists described in
-
-
 
 # Security Considerations {#security}
 

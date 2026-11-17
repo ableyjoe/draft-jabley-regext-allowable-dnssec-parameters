@@ -345,14 +345,6 @@ This document has no IANA actions.
 
 --- back
 
-# Acknowledgments
-{:numbered="false"}
-
-Bas Westerbaan provided post-quantum energy. Scott Hollenbeck and
-Gavin Brown provided welcome encouragement. Mark Andrews provided
-suggestions which made the text clearer.
-
-
 # Example Allowlist Generator {#generator}
 
 The following short script, written in Python 3 using only its
@@ -437,3 +429,12 @@ reformatted here for brevity:
   }
 }
 ~~~
+
+
+# Acknowledgments
+{:numbered="false"}
+
+Bas Westerbaan provided post-quantum energy. Scott Hollenbeck and
+Gavin Brown provided welcome encouragement. Mark Andrews provided
+suggestions which made the text clearer.
+

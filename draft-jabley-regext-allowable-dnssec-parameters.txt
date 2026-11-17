@@ -4,8 +4,8 @@
 
 Registration Protocols Extensions                               J. Abley
 Internet-Draft                                                Cloudflare
-Intended status: Best Current Practice                   15 October 2026
-Expires: 18 April 2027
+Intended status: Best Current Practice                  17 November 2026
+Expires: 21 May 2027
 
 
                  Acceptance of DNSSEC Parameters in EPP
@@ -57,7 +57,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 April 2027.
+   This Internet-Draft will expire on 21 May 2027.
 
 Copyright Notice
 
@@ -94,6 +94,7 @@ Table of Contents
    8.  References
      8.1.  Normative References
      8.2.  Informative References
+   Appendix A.  Example Allowlist Generator
    Acknowledgments
    Author's Address
 
@@ -282,6 +283,11 @@ Table of Contents
    [DS-IANA] in their acceptance policy within 30 days of those changes
    being published.
 
+   An example script which generates an allowlist directly from the IANA
+   registries can be found in Appendix A.  An operator could use
+   automatically-generated allowlists to react to changes and trigger
+   internal processes to update configuration deployed in production.
+
 4.5.  Publication
 
    Registries and registrars SHOULD publish their policy for accepting
@@ -302,6 +308,8 @@ Table of Contents
    registry's own systems caused by an unfamiliar value could affect
    many delegations, not only the one concerned, and is a more
    significant risk than any effect on validation.
+
+   An example script which generates the allowlists described in
 
 6.  Security Considerations
 
@@ -432,6 +440,88 @@ Table of Contents
               Framework for DNSSEC Policies and DNSSEC Practice
               Statements", RFC 6841, DOI 10.17487/RFC6841, January 2013,
               <https://www.rfc-editor.org/rfc/rfc6841>.
+
+Appendix A.  Example Allowlist Generator
+
+   The following short script, written in Python 3 using only its
+   standard library, retrieves [DNSKEY-IANA] and [DS-IANA] in XML form
+   and prints allowlists for <secDNS:alg> and <secDNS:digestType>
+   constructed according to Section 4.2, together with the date on which
+   each IANA registry was last updated.  It illustrates how a registry
+   or registrar might generate an allowlist automatically and compare it
+   with the one it has deployed, for example in order to follow
+   Section 4.4.
+
+   <CODE BEGINS> file "secdns-allowlist.py"
+   #!/usr/bin/env python3
+   #
+   # Print allowlists for the EPP <secDNS:alg> and <secDNS:digestType>
+   # elements, derived from the current contents of the IANA
+   # registries as described in Section 4.2 of
+   # draft-jabley-regext-allowable-dnssec-parameters.
+
+   import json
+   import urllib.request
+   import xml.etree.ElementTree as ET
+
+   IANA = "https://www.iana.org/assignments/"
+   NS = {"i": "http://www.iana.org/assignments"}
+
+
+   def col(record, tag):
+       return record.findtext("i:" + tag, "", NS).strip()
+
+
+   def alg_ok(r):
+       # "Zone Signing" is "Y" and "Use for DNSSEC Validation" is
+       # not "MUST NOT"; this admits the private algorithms
+       return col(r, "signing") == "Y" and \
+           col(r, "usevalid") != "MUST NOT"
+
+
+   def digest_ok(r):
+       # "Use for DNSSEC Validation" contains a requirement level
+       # other than "MUST NOT", or the value is for private use
+       return col(r, "usevalid") not in ("", "MUST NOT") or \
+           "private use" in col(r, "description").lower()
+
+
+   def allowlist(name, number, ok):
+       url = IANA + name + "/" + name + ".xml"
+       with urllib.request.urlopen(url) as f:
+           root = ET.parse(f).getroot()
+       # the table we want is the first sub-registry, "<name>-1"
+       path = "i:registry[@id='" + name + "-1']/i:record"
+       allow = []
+       for r in root.iterfind(path, NS):
+           if ok(r):
+               lo, _, hi = col(r, number).partition("-")
+               allow += range(int(lo), int(hi or lo) + 1)
+       return {"updated": root.findtext("i:updated", "", NS),
+               "allow": sorted(allow)}
+
+
+   print(json.dumps({
+       "secDNS:alg":
+           allowlist("dns-sec-alg-numbers", "number", alg_ok),
+       "secDNS:digestType":
+           allowlist("ds-rr-types", "value", digest_ok),
+   }, indent=2))
+   <CODE ENDS>
+
+   At the time of writing, the program produced the following output,
+   reformatted here for brevity:
+
+   {
+     "secDNS:alg": {
+       "updated": "2026-08-10",
+       "allow": [5, 7, 8, 10, 13, 14, 15, 16, 17, 18, 23, 253, 254]
+     },
+     "secDNS:digestType": {
+       "updated": "2026-01-13",
+       "allow": [1, 2, 4, 5, 6, 253, 254]
+     }
+   }
 
 Acknowledgments
 

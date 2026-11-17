@@ -309,8 +309,6 @@ Table of Contents
    many delegations, not only the one concerned, and is a more
    significant risk than any effect on validation.
 
-   An example script which generates the allowlists described in
-
 6.  Security Considerations
 
 6.1.  Unsupported Algorithms and Digest Types
